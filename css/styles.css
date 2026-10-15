@@ -1,0 +1,230 @@
+/* Estilos personalizados y componentes táctiles estilo Duolingo */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+:root {
+  --duo-green: #58cc02;
+  --duo-green-shadow: #46a302;
+  --duo-blue: #1cb0f6;
+  --duo-blue-shadow: #1899d6;
+  --duo-orange: #ff9600;
+  --duo-orange-shadow: #cc7700;
+  --duo-red: #ff4b4b;
+  --duo-red-shadow: #d12c2c;
+  --duo-purple: #ce82ff;
+  --duo-purple-shadow: #a54bd9;
+  --duo-gray: #e5e7eb;
+  --duo-gray-shadow: #d1d5db;
+}
+
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  overscroll-behavior-y: contain;
+}
+
+/* 3D Tactile Buttons estilo Duolingo */
+.btn-duo {
+  position: relative;
+  transition: all 0.1s ease;
+  user-select: none;
+  cursor: pointer;
+}
+
+.btn-duo:active:not(:disabled) {
+  transform: translateY(4px);
+  border-bottom-width: 0px !important;
+  margin-top: 4px;
+}
+
+.btn-duo-green {
+  background-color: var(--duo-green);
+  border-bottom: 5px solid var(--duo-green-shadow);
+  color: #ffffff;
+}
+.btn-duo-green:hover:not(:disabled) {
+  background-color: #61e002;
+}
+
+.btn-duo-blue {
+  background-color: var(--duo-blue);
+  border-bottom: 5px solid var(--duo-blue-shadow);
+  color: #ffffff;
+}
+.btn-duo-blue:hover:not(:disabled) {
+  background-color: #2ec1ff;
+}
+
+.btn-duo-purple {
+  background-color: var(--duo-purple);
+  border-bottom: 5px solid var(--duo-purple-shadow);
+  color: #ffffff;
+}
+
+.btn-duo-orange {
+  background-color: var(--duo-orange);
+  border-bottom: 5px solid var(--duo-orange-shadow);
+  color: #ffffff;
+}
+
+.btn-duo-white {
+  background-color: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-bottom: 5px solid #cbd5e1;
+  color: #334155;
+}
+.btn-duo-white:hover:not(:disabled) {
+  background-color: #f8fafc;
+}
+
+.btn-duo:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+/* Opciones de test táctil */
+.option-card {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid #e2e8f0;
+  border-bottom: 4px solid #cbd5e1;
+  user-select: none;
+}
+.option-card:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+.option-card.selected {
+  background-color: #eff6ff;
+  border-color: #3b82f6;
+  border-bottom: 4px solid #1d4ed8;
+  color: #1e40af;
+}
+.option-card.correct {
+  background-color: #f0fdf4 !important;
+  border-color: #22c55e !important;
+  border-bottom: 4px solid #15803d !important;
+  color: #14532d !important;
+}
+.option-card.incorrect {
+  background-color: #fef2f2 !important;
+  border-color: #ef4444 !important;
+  border-bottom: 4px solid #b91c1c !important;
+  color: #7f1d1d !important;
+}
+
+/* Inputs de huecos */
+.gap-input {
+  transition: all 0.2s ease;
+  min-width: 130px;
+  max-width: 260px;
+  display: inline-block;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 0.75rem;
+  padding: 0.35rem 0.65rem;
+  border: 2px solid #cbd5e1;
+  background-color: #f8fafc;
+  outline: none;
+}
+.gap-input:focus {
+  border-color: var(--duo-blue);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(28, 176, 246, 0.2);
+}
+.gap-input.correct {
+  border-color: var(--duo-green);
+  background-color: #f0fdf4;
+  color: #15803d;
+}
+.gap-input.incorrect {
+  border-color: var(--duo-red);
+  background-color: #fef2f2;
+  color: #b91c1c;
+}
+
+/* Barra de progreso de Duolingo con brillo */
+.duo-progress-bar {
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+.duo-progress-fill {
+  background-color: var(--duo-green);
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+.duo-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 10px;
+  right: 10px;
+  height: 35%;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 9999px;
+}
+
+/* Animaciones */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.85); opacity: 0; }
+  70% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-pop {
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Estilos de tarjetas y texto */
+.reading-text {
+  line-height: 2.2;
+  font-size: 1.15rem;
+}
+@media (min-width: 768px) {
+  .reading-text {
+    line-height: 2.4;
+    font-size: 1.25rem;
+  }
+}
+
+/* Scrollbar discreto */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}

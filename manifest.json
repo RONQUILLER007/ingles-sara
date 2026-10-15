@@ -1,0 +1,33 @@
+{
+  "name": "Inglés Sara - Preparador de Exámenes",
+  "short_name": "Inglés Sara",
+  "description": "Entrenador interactivo de inglés para exámenes con IA Gemini, tiempos verbales, rephrasing y cloze test",
+  "start_url": "./index.html",
+  "scope": "./",
+  "id": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#58cc02",
+  "orientation": "any",
+  "categories": ["education", "study", "productivity"],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
