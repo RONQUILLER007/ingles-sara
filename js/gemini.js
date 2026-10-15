@@ -154,8 +154,8 @@ Devuelve única y exclusivamente un JSON con:
     return false;
   },
 
-  // Llamada genérica a la API REST de Gemini con systemInstruction y responseMimeType: application/json
-  async callGemini(userPrompt) {
+  // Llamada genérica a la API REST de Gemini con systemInstruction, reintento automático en 429/503 y respuesta JSON limpia
+  async callGemini(userPrompt, isRetry = false) {
     const apiKey = window.StorageManager ? window.StorageManager.getApiKey() : '';
     if (!apiKey) {
       throw new Error('NO_API_KEY');
@@ -190,32 +190,82 @@ REGLAS DE SALIDA:
       }
     };
 
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(requestBody)
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(`API_ERROR_${response.status}: ${errorData.error?.message || response.statusText}`);
-    }
-
-    const data = await response.json();
-    const candidateText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!candidateText) {
-      throw new Error('EMPTY_RESPONSE_FROM_GEMINI');
-    }
-
     try {
-      // Limpieza por si devuelve bloques markdown
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      if (!response.ok) {
+        const status = response.status;
+        const errorData = await response.json().catch(() => ({}));
+        const errMsg = errorData.error?.message || response.statusText || '';
+        const isHighDemand = status === 429 || status === 503 || 
+          errMsg.toLowerCase().includes('quota') || 
+          errMsg.toLowerCase().includes('resource') || 
+          errMsg.toLowerCase().includes('overloaded') || 
+          errMsg.toLowerCase().includes('rate');
+
+        // Reintento automático tras 4 segundos si falla por saturación/demanda
+        if (isHighDemand && !isRetry) {
+          console.warn(`[Gemini] Servidor ocupado (${status}). Reintentando automáticamente en 4 segundos...`);
+          if (window.App && typeof window.App.updateLoadingText === 'function') {
+            window.App.updateLoadingText('Servidores ocupados, reintentando automáticamente en 4 segundos...');
+          }
+          await new Promise(resolve => setTimeout(resolve, 4000));
+          if (window.App && typeof window.App.updateLoadingText === 'function') {
+            window.App.updateLoadingText('Generando ejercicios, por favor espera...');
+          }
+          return await this.callGemini(userPrompt, true);
+        }
+
+        if (isHighDemand) {
+          const highErr = new Error('HIGH_DEMAND_ERROR');
+          highErr.isHighDemand = true;
+          highErr.status = status;
+          throw highErr;
+        }
+
+        throw new Error(`API_ERROR_${status}: ${errMsg}`);
+      }
+
+      const data = await response.json();
+      const candidateText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!candidateText) {
+        throw new Error('EMPTY_RESPONSE_FROM_GEMINI');
+      }
+
       const cleaned = candidateText.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
       return JSON.parse(cleaned);
-    } catch (parseErr) {
-      console.error('Error parseando JSON de Gemini:', parseErr, candidateText);
-      throw new Error('INVALID_JSON_RESPONSE');
+    } catch (err) {
+      if (err.isHighDemand) {
+        throw err;
+      }
+      const isHighDemand = err.message?.includes('429') || err.message?.includes('503') || 
+        err.message?.toLowerCase().includes('quota') || 
+        err.message?.toLowerCase().includes('overloaded');
+
+      if (isHighDemand && !isRetry) {
+        console.warn(`[Gemini] Error de demanda detectado (${err.message}). Esperando 4 segundos para reintentar...`);
+        if (window.App && typeof window.App.updateLoadingText === 'function') {
+          window.App.updateLoadingText('Servidores ocupados, reintentando automáticamente en 4 segundos...');
+        }
+        await new Promise(resolve => setTimeout(resolve, 4000));
+        if (window.App && typeof window.App.updateLoadingText === 'function') {
+          window.App.updateLoadingText('Generando ejercicios, por favor espera...');
+        }
+        return await this.callGemini(userPrompt, true);
+      }
+
+      if (isHighDemand) {
+        const highErr = new Error('HIGH_DEMAND_ERROR');
+        highErr.isHighDemand = true;
+        throw highErr;
+      }
+      throw err;
     }
   },
 
@@ -243,6 +293,9 @@ Formato JSON: Array de ${count} objetos.`;
       }
       throw new Error('Invalid format received');
     } catch (err) {
+      if (err.isHighDemand) {
+        throw err;
+      }
       console.warn('Gemini Mode 1 fallback to local bank:', err.message);
       return this.getRandomLocalExercises('mode1', count);
     }
@@ -277,6 +330,9 @@ Formato JSON: Array de ${count} objetos.`;
       }
       throw new Error('Invalid format received');
     } catch (err) {
+      if (err.isHighDemand) {
+        throw err;
+      }
       console.warn('Gemini Mode 2 fallback to local bank:', err.message);
       return this.getRandomLocalExercises('mode2', count);
     }
@@ -308,6 +364,9 @@ Requisitos:
       }
       throw new Error('Invalid format received');
     } catch (err) {
+      if (err.isHighDemand) {
+        throw err;
+      }
       console.warn('Gemini Mode 3 fallback to local bank:', err.message);
       const bank = window.EXAM_BANK.mode3;
       const randomIndex = Math.floor(Math.random() * bank.length);
@@ -342,6 +401,9 @@ Formato JSON: Array de ${count} objetos.`;
       }
       throw new Error('Invalid format received');
     } catch (err) {
+      if (err.isHighDemand) {
+        throw err;
+      }
       console.warn('Gemini Mode 4 fallback to local bank:', err.message);
       return this.getRandomLocalExercises('mode4', count);
     }
@@ -354,22 +416,57 @@ Formato JSON: Array de ${count} objetos.`;
     return shuffled.slice(0, count);
   },
 
-  // Test de conexión con la API de Gemini
-  async testApiKey(apiKey) {
+  // Test de conexión con la API de Gemini (con reintento en 429/503)
+  async testApiKey(apiKey, isRetry = false) {
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${this.modelName}:generateContent?key=${apiKey}`;
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: 'Responde únicamente con {"status":"ok"}' }] }],
-        generationConfig: { responseMimeType: 'application/json' }
-      })
-    });
-    if (!response.ok) {
-      const err = await response.json().catch(() => ({}));
-      throw new Error(err.error?.message || `Error ${response.status}`);
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text: 'Responde únicamente con {"status":"ok"}' }] }],
+          generationConfig: { responseMimeType: 'application/json' }
+        })
+      });
+
+      if (!response.ok) {
+        const status = response.status;
+        const err = await response.json().catch(() => ({}));
+        const errMsg = err.error?.message || response.statusText || '';
+        const isHighDemand = status === 429 || status === 503 || 
+          errMsg.toLowerCase().includes('quota') || 
+          errMsg.toLowerCase().includes('overloaded');
+
+        if (isHighDemand && !isRetry) {
+          console.warn(`[Gemini Test] Ocupado (${status}). Reintentando en 4 segundos...`);
+          await new Promise(res => setTimeout(res, 4000));
+          return await this.testApiKey(apiKey, true);
+        }
+
+        if (isHighDemand) {
+          const highErr = new Error('HIGH_DEMAND_ERROR');
+          highErr.isHighDemand = true;
+          highErr.status = status;
+          throw highErr;
+        }
+
+        throw new Error(errMsg || `Error ${status}`);
+      }
+      return true;
+    } catch (e) {
+      if (e.isHighDemand) throw e;
+      const isHighDemand = e.message?.includes('429') || e.message?.includes('503') || e.message?.toLowerCase().includes('quota');
+      if (isHighDemand && !isRetry) {
+        await new Promise(res => setTimeout(res, 4000));
+        return await this.testApiKey(apiKey, true);
+      }
+      if (isHighDemand) {
+        const highErr = new Error('HIGH_DEMAND_ERROR');
+        highErr.isHighDemand = true;
+        throw highErr;
+      }
+      throw e;
     }
-    return true;
   }
 };
 

@@ -499,12 +499,37 @@
   </div>
 
   <!-- ============================================================ -->
-  <!-- MODAL DE CARGA (LOADING) -->
+  <!-- MODAL DE CARGA (LOADING) CON BLOQUEO VISUAL -->
   <!-- ============================================================ -->
   <div id="loading-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-white rounded-3xl p-6 sm:p-8 flex flex-col items-center gap-4 text-center shadow-2xl max-w-xs w-full animate-pop">
       <div class="w-14 h-14 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
-      <p id="loading-text" class="text-base font-black text-slate-800">Preparando ejercicios...</p>
+      <p id="loading-text" class="text-base font-black text-slate-800">Generando ejercicios, por favor espera...</p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MODAL DE SERVIDORES OCUPADOS (ERROR 429 / 503) -->
+  <!-- ============================================================ -->
+  <div id="high-demand-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 flex flex-col items-center gap-4 text-center shadow-2xl max-w-sm w-full animate-pop border-2 border-amber-300">
+      <div class="w-16 h-16 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-3xl shadow-inner">
+        ⏳
+      </div>
+      <div class="space-y-2">
+        <h3 class="text-xl font-black text-slate-900">Servidores Ocupados</h3>
+        <p class="text-sm font-bold text-slate-600 leading-relaxed">
+          Los servidores están muy ocupados ahora mismo. Por favor, espera un minuto y vuelve a intentarlo.
+        </p>
+      </div>
+      <div class="w-full space-y-2.5 pt-2">
+        <button id="btn-high-demand-offline" class="btn-duo btn-duo-green w-full py-3.5 rounded-2xl text-sm font-black uppercase tracking-wider shadow-md">
+          Practicar con Banco Offline
+        </button>
+        <button id="btn-high-demand-close" class="btn-duo btn-duo-white w-full py-3 rounded-2xl text-xs font-black uppercase text-slate-600">
+          Volver al Menú
+        </button>
+      </div>
     </div>
   </div>
 

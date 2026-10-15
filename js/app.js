@@ -163,9 +163,11 @@ const App = {
   },
 
   // ==========================================
-  // INICIO DE SESIÓN DE PRÁCTICA
+  // INICIO DE SESIÓN DE PRÁCTICA CON BLOQUEO DE UI
   // ==========================================
   async startSession(modeKey) {
+    if (this.state.isGenerating) return;
+
     this.state.currentMode = modeKey;
     this.state.currentIndex = 0;
     this.state.sessionResults = [];
@@ -175,8 +177,8 @@ const App = {
     this.state.currentFeedback = null;
     this.state.mode3UserAnswers = {};
 
-    this.showScreen('session');
-    this.showLoadingModal(true, 'Generando ejercicios adaptados a Sara...');
+    // 1. Bloqueo de UI y aviso visual inmediato para evitar múltiples clics
+    this.setGeneratingState(true, 'Generando ejercicios, por favor espera...');
 
     try {
       if (modeKey === 'mode1') {
@@ -185,21 +187,20 @@ const App = {
         this.state.sessionExercises = await GeminiClient.getMode2Exercises(5);
       } else if (modeKey === 'mode3') {
         const cloze = await GeminiClient.getMode3Exercise();
-        this.state.sessionExercises = [cloze]; // En modo 3 la sesión es el relato completo
+        this.state.sessionExercises = [cloze];
       } else if (modeKey === 'mode4') {
         this.state.sessionExercises = await GeminiClient.getMode4Exercises(5);
       } else if (modeKey === 'review') {
         const errorList = StorageManager.getErrorBank();
         if (errorList.length === 0) {
+          this.setGeneratingState(false);
           alert('¡Enhorabuena! No tienes errores pendientes por repasar en el banco.');
           this.showScreen('home');
           return;
         }
-        // Tomar hasta 5 errores aleatorios para la sesión
         const shuffled = [...errorList].sort(() => 0.5 - Math.random()).slice(0, 5);
         this.state.sessionExercises = shuffled.map(err => {
           if (err.rawExercise) return { ...err.rawExercise, isFromErrorBank: true, errorBankId: err.id };
-          // Fallback a ejercicio de rephrasing si era rephrasing o modo 1
           return {
             id: err.id,
             original: err.question,
@@ -213,14 +214,58 @@ const App = {
         });
       }
 
-      this.showLoadingModal(false);
+      this.setGeneratingState(false);
+      this.showScreen('session');
       this.renderCurrentExercise();
     } catch (err) {
-      this.showLoadingModal(false);
-      console.error('Error starting session:', err);
-      alert('Hubo un problema preparando la sesión. Cargando ejercicios seguros del temario...');
-      this.state.sessionExercises = GeminiClient.getRandomLocalExercises(modeKey === 'review' ? 'mode2' : modeKey, 5);
-      this.renderCurrentExercise();
+      this.setGeneratingState(false);
+      console.warn('Error en la sesión:', err);
+
+      // Si tras el reintento automático persiste el error de saturación (429/503)
+      if (err.isHighDemand) {
+        this.showHighDemandModal(modeKey);
+      } else {
+        alert('Hubo un problema de conexión con la IA. Cargando ejercicios del temario oficial...');
+        this.startOfflineSession(modeKey);
+      }
+    }
+  },
+
+  startOfflineSession(modeKey) {
+    this.showScreen('session');
+    this.state.sessionExercises = GeminiClient.getRandomLocalExercises(modeKey === 'review' ? 'mode2' : modeKey, 5);
+    this.renderCurrentExercise();
+    this.showToast('Sesión cargada con el banco de examen.');
+  },
+
+  showHighDemandModal(modeKey) {
+    const modal = document.getElementById('high-demand-modal');
+    if (!modal) {
+      alert('Los servidores están muy ocupados ahora mismo. Por favor, espera un minuto y vuelve a intentarlo.');
+      this.showScreen('home');
+      return;
+    }
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+
+    const btnOffline = document.getElementById('btn-high-demand-offline');
+    const btnClose = document.getElementById('btn-high-demand-close');
+
+    if (btnOffline) {
+      btnOffline.onclick = () => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        this.startOfflineSession(modeKey);
+      };
+    }
+
+    if (btnClose) {
+      btnClose.onclick = () => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        this.showScreen('home');
+      };
     }
   },
 
@@ -1018,6 +1063,7 @@ const App = {
   async testGeminiApiKey() {
     const apiKeyInput = document.getElementById('setting-api-key');
     const statusMsg = document.getElementById('gemini-test-status');
+    const testBtn = document.getElementById('btn-test-gemini');
     const key = apiKeyInput?.value?.trim();
 
     if (!key) {
@@ -1032,6 +1078,10 @@ const App = {
       statusMsg.textContent = 'Verificando con Google Gemini...';
       statusMsg.className = 'text-xs font-bold text-blue-600 mt-2 block';
     }
+    if (testBtn) {
+      testBtn.disabled = true;
+      testBtn.textContent = 'Probando...';
+    }
 
     try {
       await GeminiClient.testApiKey(key);
@@ -1041,14 +1091,54 @@ const App = {
       }
     } catch (err) {
       if (statusMsg) {
-        statusMsg.textContent = `Error: ${err.message}`;
-        statusMsg.className = 'text-xs font-bold text-rose-600 mt-2 block';
+        if (err.isHighDemand) {
+          statusMsg.textContent = 'Los servidores están muy ocupados ahora mismo. Por favor, espera un minuto y vuelve a intentarlo.';
+          statusMsg.className = 'text-xs font-bold text-amber-600 mt-2 block';
+        } else {
+          statusMsg.textContent = `Error: ${err.message}`;
+          statusMsg.className = 'text-xs font-bold text-rose-600 mt-2 block';
+        }
+      }
+    } finally {
+      if (testBtn) {
+        testBtn.disabled = false;
+        testBtn.textContent = 'Probar';
       }
     }
   },
 
-  // Modal de carga
-  showLoadingModal(show, text = 'Cargando...') {
+  // 1. Bloqueo de UI y estado de generación para evitar clics múltiples
+  setGeneratingState(isGenerating, text = 'Generando ejercicios, por favor espera...') {
+    this.state.isGenerating = isGenerating;
+
+    // Desactivar o activar tarjetas de modo en el home
+    const modeCards = document.querySelectorAll('#card-mode-1, #card-mode-2, #card-mode-3, #card-mode-4, #card-mode-review, #btn-open-error-bank');
+    modeCards.forEach(card => {
+      if (isGenerating) {
+        card.classList.add('pointer-events-none', 'opacity-50');
+      } else {
+        card.classList.remove('pointer-events-none', 'opacity-50');
+      }
+    });
+
+    // Desactivar botones de repetición si están presentes
+    const replayBtn = document.getElementById('btn-summary-replay');
+    if (replayBtn) replayBtn.disabled = isGenerating;
+
+    const reviewBtn = document.getElementById('btn-start-review-session');
+    if (reviewBtn) reviewBtn.disabled = isGenerating;
+
+    // Mostrar u ocultar modal de carga
+    this.showLoadingModal(isGenerating, text);
+  },
+
+  updateLoadingText(text) {
+    const label = document.getElementById('loading-text');
+    if (label) label.textContent = text;
+  },
+
+  // Modal de carga con backdrop
+  showLoadingModal(show, text = 'Generando ejercicios, por favor espera...') {
     const modal = document.getElementById('loading-modal');
     const label = document.getElementById('loading-text');
     if (!modal) return;
