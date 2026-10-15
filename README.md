@@ -46,28 +46,3 @@ Optimizada específicamente para uso táctil en su tablet **Xiaomi Pad 8** (boto
 
 ---
 
-## 📱 Cómo Abrir e Instalar en la Xiaomi Pad 8 (PWA)
-
-### Pasos para publicar en GitHub Pages:
-1. Sube todos los archivos de esta carpeta a tu repositorio de GitHub (por ejemplo, `ingles-sara`).
-2. En GitHub, entra en tu repositorio y ve a **Settings** ➔ **Pages** (en el menú lateral izquierdo).
-3. En **Build and deployment**:
-   - Source: **Deploy from a branch**.
-   - Branch: selecciona **main** (o **master**) y carpeta **/ (root)**.
-   - Pulsa **Save**.
-4. En 1-2 minutos, GitHub Pages te dará el enlace público seguro con HTTPS (ejemplo: `https://tu-usuario.github.io/ingles-sara/`).
-
-### Cómo instalarla en la Xiaomi Pad 8:
-1. En la **Xiaomi Pad 8**, abre **Google Chrome** y entra al enlace de GitHub Pages.
-2. Toca en el menú de los **3 puntos (⋮)** de la esquina superior derecha de Chrome.
-3. Selecciona: 👉 **"Añadir a la pantalla de inicio"** o **"Instalar aplicación"**.
-4. ¡Listo! Se creará el acceso directo con el icono oficial en el escritorio de la tablet y funcionará a pantalla completa como una app nativa, con soporte offline gracias al Service Worker.
-
----
-
-## 🔑 Configurar la API Key de Gemini
-1. Consigue una API Key gratuita en [Google AI Studio](https://aistudio.google.com/).
-2. En la app (en la tablet o en el ordenador), pulsa en el botón **⚙️ (Ajustes)** arriba a la derecha.
-3. Pega la clave en el campo **Clave API de Google Gemini**.
-4. Pulsa **Probar** para comprobar que la conexión con `gemini-3.8-flash` es correcta.
-5. Pulsa **Guardar Cambios**. La app cambiará el indicador de estado a color verde y comenzará a generar ejercicios infinitos personalizados al instante.
