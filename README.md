@@ -8,7 +8,7 @@ Optimizada específicamente para uso táctil en su tablet **Xiaomi Pad 8** (boto
 
 ## 🌟 Características Principales
 
-### 1. Conexión con IA Google Gemini (`gemini-2.5-flash`)
+### 1. Conexión con IA Google Gemini (`gemini-3.8-flash`)
 - **Generación en vivo:** Cada tanda crea ejercicios inéditos mediante la API REST oficial de Gemini configurada con `responseMimeType: "application/json"`.
 - **Inyección de contexto:** Se inyecta íntegramente `contexto_examenes.md` como instrucción del sistema en cada llamada para clavar tiempos verbales, vocabulario, phrasal verbs (*head for, cheer up, break down...*) y conectores (*while, as, by the time, since, for*).
 - **Banco de Semillas Offline Precargado:** Incluye los 15 ejercicios reales de *Rephrasing*, relatos de examen de *Cloze Test*, y preguntas teóricas directamente en código. Si la tablet está sin conexión o no se ha introducido la clave API todavía, la app es **100 % funcional de inmediato**.
@@ -69,5 +69,5 @@ Optimizada específicamente para uso táctil en su tablet **Xiaomi Pad 8** (boto
 1. Consigue una API Key gratuita en [Google AI Studio](https://aistudio.google.com/).
 2. En la app (en la tablet o en el ordenador), pulsa en el botón **⚙️ (Ajustes)** arriba a la derecha.
 3. Pega la clave en el campo **Clave API de Google Gemini**.
-4. Pulsa **Probar** para comprobar que la conexión con `gemini-2.5-flash` es correcta.
+4. Pulsa **Probar** para comprobar que la conexión con `gemini-3.8-flash` es correcta.
 5. Pulsa **Guardar Cambios**. La app cambiará el indicador de estado a color verde y comenzará a generar ejercicios infinitos personalizados al instante.

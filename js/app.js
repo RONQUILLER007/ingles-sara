@@ -134,7 +134,7 @@ const App = {
       if (apiKey) {
         geminiStatus.innerHTML = `
           <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span class="text-xs font-bold text-emerald-700">Gemini 2.5 Flash Activo (Generación en Vivo)</span>
+          <span class="text-xs font-bold text-emerald-700">Gemini 3.8 Flash Activo (Generación en Vivo)</span>
         `;
         geminiStatus.className = "inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 cursor-pointer";
       } else {
@@ -1036,7 +1036,7 @@ const App = {
     try {
       await GeminiClient.testApiKey(key);
       if (statusMsg) {
-        statusMsg.textContent = '¡Conexión con Gemini 2.5 Flash exitosa!';
+        statusMsg.textContent = '¡Conexión con Gemini 3.8 Flash exitosa!';
         statusMsg.className = 'text-xs font-bold text-emerald-600 mt-2 block';
       }
     } catch (err) {

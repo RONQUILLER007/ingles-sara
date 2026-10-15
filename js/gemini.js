@@ -1,6 +1,6 @@
-// Conexión con la API REST de Gemini (gemini-2.5-flash) y generador de ejercicios
+// Conexión con la API REST de Gemini (gemini-3.8-flash) y generador de ejercicios
 const GeminiClient = {
-  modelName: 'gemini-2.5-flash',
+  modelName: 'gemini-3.8-flash',
 
   // Normalizador de texto para validación flexible
   normalizeText(str) {
