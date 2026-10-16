@@ -1080,19 +1080,23 @@ const App = {
     }
     if (testBtn) {
       testBtn.disabled = true;
-      testBtn.textContent = 'Probando...';
+      testBtn.textContent = 'Verificando...';
     }
 
     try {
       await GeminiClient.testApiKey(key);
+      StorageManager.setApiKey(key);
+      this.updateHomeStats();
       if (statusMsg) {
-        statusMsg.textContent = '¡Conexión con Gemini 3.8 Flash exitosa!';
+        statusMsg.textContent = '¡Conexión con Gemini 3.8 Flash exitosa! Clave guardada.';
         statusMsg.className = 'text-xs font-bold text-emerald-600 mt-2 block';
       }
     } catch (err) {
       if (statusMsg) {
-        if (err.isHighDemand) {
-          statusMsg.textContent = 'Los servidores están muy ocupados ahora mismo. Por favor, espera un minuto y vuelve a intentarlo.';
+        if (err.isHighDemand || err.isTimeout) {
+          StorageManager.setApiKey(key);
+          this.updateHomeStats();
+          statusMsg.textContent = 'Servidores ocupados. La clave se ha guardado, puedes cerrar esta ventana y usar el banco local.';
           statusMsg.className = 'text-xs font-bold text-amber-600 mt-2 block';
         } else {
           statusMsg.textContent = `Error: ${err.message}`;

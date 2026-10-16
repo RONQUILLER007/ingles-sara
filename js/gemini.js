@@ -154,7 +154,41 @@ Devuelve única y exclusivamente un JSON con:
     return false;
   },
 
-  // Llamada genérica a la API REST de Gemini con systemInstruction, reintento automático en 429/503 y respuesta JSON limpia
+  // Petición fetch con timeout máximo de 8 segundos (AbortController + Promise.race)
+  async fetchWithTimeout(url, options = {}, timeoutMs = 8000) {
+    const controller = new AbortController();
+    const fetchPromise = fetch(url, {
+      ...options,
+      signal: controller.signal
+    });
+
+    let timeoutId;
+    const timeoutPromise = new Promise((_, reject) => {
+      timeoutId = setTimeout(() => {
+        controller.abort();
+        const err = new Error('TIMEOUT_ERROR');
+        err.isTimeout = true;
+        err.isHighDemand = true;
+        reject(err);
+      }, timeoutMs);
+    });
+
+    try {
+      return await Promise.race([fetchPromise, timeoutPromise]);
+    } catch (err) {
+      if (err.name === 'AbortError' || err.isTimeout) {
+        const timeoutErr = new Error('TIMEOUT_ERROR');
+        timeoutErr.isTimeout = true;
+        timeoutErr.isHighDemand = true;
+        throw timeoutErr;
+      }
+      throw err;
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  },
+
+  // Llamada genérica a la API REST de Gemini con systemInstruction, timeout de 8s, reintento automático en 429/503 y respuesta JSON limpia
   async callGemini(userPrompt, isRetry = false) {
     const apiKey = window.StorageManager ? window.StorageManager.getApiKey() : '';
     if (!apiKey) {
@@ -191,13 +225,13 @@ REGLAS DE SALIDA:
     };
 
     try {
-      const response = await fetch(endpoint, {
+      const response = await this.fetchWithTimeout(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(requestBody)
-      });
+      }, 8000);
 
       if (!response.ok) {
         const status = response.status;
@@ -207,6 +241,8 @@ REGLAS DE SALIDA:
           errMsg.toLowerCase().includes('quota') || 
           errMsg.toLowerCase().includes('resource') || 
           errMsg.toLowerCase().includes('overloaded') || 
+          errMsg.toLowerCase().includes('unavailable') || 
+          errMsg.toLowerCase().includes('demand') || 
           errMsg.toLowerCase().includes('rate');
 
         // Reintento automático tras 4 segundos si falla por saturación/demanda
@@ -241,14 +277,12 @@ REGLAS DE SALIDA:
       const cleaned = candidateText.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
       return JSON.parse(cleaned);
     } catch (err) {
-      if (err.isHighDemand) {
-        throw err;
-      }
-      const isHighDemand = err.message?.includes('429') || err.message?.includes('503') || 
+      const isHighDemand = err.isHighDemand || err.isTimeout ||
+        err.message?.includes('429') || err.message?.includes('503') || 
         err.message?.toLowerCase().includes('quota') || 
         err.message?.toLowerCase().includes('overloaded');
 
-      if (isHighDemand && !isRetry) {
+      if (isHighDemand && !isRetry && !err.isTimeout) {
         console.warn(`[Gemini] Error de demanda detectado (${err.message}). Esperando 4 segundos para reintentar...`);
         if (window.App && typeof window.App.updateLoadingText === 'function') {
           window.App.updateLoadingText('Servidores ocupados, reintentando automáticamente en 4 segundos...');
@@ -263,6 +297,7 @@ REGLAS DE SALIDA:
       if (isHighDemand) {
         const highErr = new Error('HIGH_DEMAND_ERROR');
         highErr.isHighDemand = true;
+        highErr.isTimeout = !!err.isTimeout;
         throw highErr;
       }
       throw err;
@@ -416,18 +451,18 @@ Formato JSON: Array de ${count} objetos.`;
     return shuffled.slice(0, count);
   },
 
-  // Test de conexión con la API de Gemini (con reintento en 429/503)
-  async testApiKey(apiKey, isRetry = false) {
+  // Test de conexión con la API de Gemini (con timeout máximo de 8 segundos)
+  async testApiKey(apiKey) {
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${this.modelName}:generateContent?key=${apiKey}`;
     try {
-      const response = await fetch(endpoint, {
+      const response = await this.fetchWithTimeout(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ role: 'user', parts: [{ text: 'Responde únicamente con {"status":"ok"}' }] }],
           generationConfig: { responseMimeType: 'application/json' }
         })
-      });
+      }, 8000);
 
       if (!response.ok) {
         const status = response.status;
@@ -436,12 +471,6 @@ Formato JSON: Array de ${count} objetos.`;
         const isHighDemand = status === 429 || status === 503 || 
           errMsg.toLowerCase().includes('quota') || 
           errMsg.toLowerCase().includes('overloaded');
-
-        if (isHighDemand && !isRetry) {
-          console.warn(`[Gemini Test] Ocupado (${status}). Reintentando en 4 segundos...`);
-          await new Promise(res => setTimeout(res, 4000));
-          return await this.testApiKey(apiKey, true);
-        }
 
         if (isHighDemand) {
           const highErr = new Error('HIGH_DEMAND_ERROR');
@@ -454,12 +483,13 @@ Formato JSON: Array de ${count} objetos.`;
       }
       return true;
     } catch (e) {
-      if (e.isHighDemand) throw e;
-      const isHighDemand = e.message?.includes('429') || e.message?.includes('503') || e.message?.toLowerCase().includes('quota');
-      if (isHighDemand && !isRetry) {
-        await new Promise(res => setTimeout(res, 4000));
-        return await this.testApiKey(apiKey, true);
+      if (e.isHighDemand || e.isTimeout) {
+        const highErr = new Error('HIGH_DEMAND_ERROR');
+        highErr.isHighDemand = true;
+        highErr.isTimeout = Boolean(e.isTimeout);
+        throw highErr;
       }
+      const isHighDemand = e.message?.includes('429') || e.message?.includes('503') || e.message?.toLowerCase().includes('quota') || e.message?.toLowerCase().includes('overloaded');
       if (isHighDemand) {
         const highErr = new Error('HIGH_DEMAND_ERROR');
         highErr.isHighDemand = true;

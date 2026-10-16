@@ -1,5 +1,5 @@
 // Service Worker para Inglés Sara PWA - Optimizado para GitHub Pages
-const CACHE_NAME = 'ingles-sara-v4';
+const CACHE_NAME = 'ingles-sara-v5';
 
 // Lista de recursos con rutas relativas
 const ASSETS_TO_CACHE = [
