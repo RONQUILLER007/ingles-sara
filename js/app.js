@@ -29,6 +29,7 @@ const App = {
     isChecking: false,
     isChecked: false,
     isLoading: false,
+    noHintMode: false,
     currentFeedback: null,
     // Para modo 3 (Cloze test completo)
     mode3UserAnswers: {},
@@ -373,6 +374,7 @@ const App = {
     this.state.selectedOptionValue = null;
     this.state.isChecking = false;
     this.state.isChecked = false;
+    this.state.noHintMode = false;
     this.state.currentFeedback = null;
     this.state.mode3UserAnswers = {};
 
@@ -470,8 +472,83 @@ const App = {
     this.updateCheckButtonState();
   },
 
+  // Interruptor manual "Sin pista" (Modos 1 y 3) con recarga instantánea y conservación de respuestas
+  renderNoHintToggleHtml() {
+    const isOn = Boolean(this.state.noHintMode);
+    return `
+      <label for="toggle-no-hint-mode" class="no-hint-toggle-wrapper ${isOn ? 'is-active' : ''}" title="Oculta las pistas y activa la corrección flexible">
+        <input type="checkbox" id="toggle-no-hint-mode" class="no-hint-checkbox" ${isOn ? 'checked' : ''} aria-label="Sin pista (corrección flexible)">
+        <span class="no-hint-switch-track" aria-hidden="true">
+          <span class="no-hint-switch-thumb"></span>
+        </span>
+        <span class="no-hint-label-text">Sin pista</span>
+        ${isOn ? '<span class="no-hint-mode-tag">Corrección flexible</span>' : ''}
+      </label>
+    `;
+  },
+
+  attachNoHintToggleListener() {
+    const toggle = document.getElementById('toggle-no-hint-mode');
+    if (!toggle) return;
+    toggle.addEventListener('change', (e) => {
+      this.toggleNoHintMode(Boolean(e.target.checked));
+    });
+  },
+
+  toggleNoHintMode(enabled) {
+    const container = document.getElementById('exercise-card-container');
+    const exercise = this.state.sessionExercises[this.state.currentIndex];
+    if (!container || !exercise) return;
+
+    const savedInputs = {};
+    container.querySelectorAll('.gap-input').forEach(inp => {
+      if (inp.id) {
+        savedInputs[inp.id] = {
+          value: inp.value,
+          isCorrect: inp.classList.contains('correct'),
+          isIncorrect: inp.classList.contains('incorrect')
+        };
+      }
+    });
+
+    const activeEl = document.activeElement;
+    const activeInputId = (activeEl && activeEl.classList?.contains('gap-input')) ? activeEl.id : null;
+    const selectionStart = activeInputId && typeof activeEl.selectionStart === 'number' ? activeEl.selectionStart : null;
+    const selectionEnd = activeInputId && typeof activeEl.selectionEnd === 'number' ? activeEl.selectionEnd : null;
+
+    this.state.noHintMode = Boolean(enabled);
+
+    const isCloze = Boolean(exercise.textTemplate || exercise.blanks || this.state.currentMode === 'mode3');
+    if (isCloze) {
+      this.renderMode3(container, exercise, { autoFocus: false });
+    } else {
+      this.renderMode1(container, exercise, { autoFocus: false });
+    }
+
+    Object.entries(savedInputs).forEach(([id, data]) => {
+      const restored = document.getElementById(id);
+      if (restored) {
+        restored.value = data.value;
+        if (data.isCorrect) restored.classList.add('correct');
+        if (data.isIncorrect) restored.classList.add('incorrect');
+      }
+    });
+
+    if (activeInputId) {
+      const activeRestored = document.getElementById(activeInputId);
+      if (activeRestored) {
+        activeRestored.focus();
+        if (selectionStart !== null && selectionEnd !== null && typeof activeRestored.setSelectionRange === 'function') {
+          activeRestored.setSelectionRange(selectionStart, selectionEnd);
+        }
+      }
+    }
+
+    this.updateCheckButtonState();
+  },
+
   // Formateador de frases y textos con huecos (Modo 1 y Modo 3) para alineación inline-flex sin solapamientos
-  formatGapTextHtml(rawText, gaps, isCloze = false) {
+  formatGapTextHtml(rawText, gaps, isCloze = false, hideHints = false) {
     let workingText = String(rawText || '');
     const gapTokens = {};
 
@@ -483,11 +560,15 @@ const App = {
       let inputField = '';
 
       if (isCloze) {
-        badgeHtml = `<span class="gap-hint-badge px-2 py-0.5 rounded-full text-xs font-black bg-indigo-100 text-indigo-700">#${gapNum} (${gap.infinitive})</span>`;
+        const clozeHint = gap.infinitive || `GAP ${gapNum}`;
+        badgeHtml = hideHints
+          ? `<span class="gap-hint-badge px-2 py-0.5 rounded-full text-xs font-black bg-indigo-100 text-indigo-700">#${gapNum}</span>`
+          : `<span class="gap-hint-badge px-2 py-0.5 rounded-full text-xs font-black bg-indigo-100 text-indigo-700 uppercase">#${gapNum} (${clozeHint})</span>`;
         inputField = `<input type="text" id="cloze-gap-${gap.id}" class="gap-input text-slate-800 placeholder-slate-400 font-bold" placeholder="${gapNum}..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-gap-id="${gap.id}">`;
       } else {
-        if (gap.infinitive) {
-          badgeHtml = `<span class="gap-hint-badge px-2.5 py-0.5 rounded-full text-xs font-black bg-blue-100 text-blue-700 uppercase tracking-wider">(${gap.infinitive})</span>`;
+        if (!hideHints) {
+          const mode1Hint = gap.infinitive || 'WORD';
+          badgeHtml = `<span class="gap-hint-badge px-2.5 py-0.5 rounded-full text-xs font-black bg-blue-100 text-blue-700 uppercase tracking-wider">(${mode1Hint})</span>`;
         }
         inputField = `<input type="text" id="gap-${gap.id}" class="gap-input text-slate-800 placeholder-slate-400 font-bold" placeholder="Escribe aquí..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-gap-id="${gap.id}">`;
       }
@@ -537,18 +618,21 @@ const App = {
   },
 
   // Render Modo 1: Frases con 1 o 2 huecos e infinitivo o preposición
-  renderMode1(container, rawEx) {
+  renderMode1(container, rawEx, { autoFocus = true } = {}) {
     const ex = GeminiClient.normalizeExercise('mode1', rawEx);
-    const htmlSentence = this.formatGapTextHtml(ex.sentence, ex.gaps, false);
+    const htmlSentence = this.formatGapTextHtml(ex.sentence, ex.gaps, false, this.state.noHintMode);
 
     container.innerHTML = `
       <div class="space-y-6">
-        <div class="flex items-center justify-between gap-2 text-slate-500 text-sm font-bold">
+        <div class="flex flex-wrap items-center justify-between gap-2 text-slate-500 text-sm font-bold">
           <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            <svg class="w-5 h-5 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
             <span>Completa el hueco con la forma verbal o preposición adecuada:</span>
           </div>
-          ${ex.category ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-black bg-slate-100 text-slate-600">${ex.category}</span>` : ''}
+          <div class="flex items-center gap-2 flex-wrap">
+            ${this.renderNoHintToggleHtml()}
+            ${ex.category ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-black bg-slate-100 text-slate-600">${ex.category}</span>` : ''}
+          </div>
         </div>
 
         <div class="p-6 md:p-8 bg-white rounded-3xl border-2 border-slate-200 shadow-sm text-xl md:text-2xl text-slate-800 font-semibold">
@@ -561,6 +645,8 @@ const App = {
       </div>
     `;
 
+    this.attachNoHintToggleListener();
+
     // Listeners para activar el botón de comprobar al escribir
     setTimeout(() => {
       const inputs = container.querySelectorAll('.gap-input');
@@ -570,7 +656,7 @@ const App = {
           if (e.key === 'Enter') this.handleCheckAnswer();
         });
       });
-      if (inputs[0]) inputs[0].focus();
+      if (autoFocus && inputs[0]) inputs[0].focus();
     }, 50);
   },
 
@@ -637,18 +723,21 @@ const App = {
   },
 
   // Render Modo 3: Cloze Test (Relato continuo)
-  renderMode3(container, rawEx) {
+  renderMode3(container, rawEx, { autoFocus = true } = {}) {
     const ex = GeminiClient.normalizeExercise('mode3', rawEx);
-    const htmlText = this.formatGapTextHtml(ex.textTemplate, ex.gaps, true);
+    const htmlText = this.formatGapTextHtml(ex.textTemplate, ex.gaps, true, this.state.noHintMode);
 
     container.innerHTML = `
       <div class="space-y-4">
-        <div class="flex items-center justify-between text-slate-600 text-sm font-bold">
+        <div class="flex flex-wrap items-center justify-between gap-2 text-slate-600 text-sm font-bold">
           <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            <svg class="w-5 h-5 text-indigo-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
             <span class="text-indigo-900 font-extrabold">${ex.title || 'Cloze Test: Relato de Examen'}</span>
           </div>
-          <span class="text-xs font-bold text-slate-400">${ex.gaps.length} huecos a rellenar</span>
+          <div class="flex items-center gap-2 flex-wrap">
+            ${this.renderNoHintToggleHtml()}
+            <span class="text-xs font-bold text-slate-400">${ex.gaps.length} huecos a rellenar</span>
+          </div>
         </div>
 
         <div class="p-6 md:p-8 bg-white rounded-3xl border-2 border-slate-200 shadow-sm reading-text text-slate-800 font-medium">
@@ -662,12 +751,14 @@ const App = {
       </div>
     `;
 
+    this.attachNoHintToggleListener();
+
     setTimeout(() => {
       const inputs = container.querySelectorAll('.gap-input');
       inputs.forEach(input => {
         input.addEventListener('input', () => this.updateCheckButtonState());
       });
-      if (inputs[0]) inputs[0].focus();
+      if (autoFocus && inputs[0]) inputs[0].focus();
     }, 50);
   },
 
@@ -1004,6 +1095,25 @@ const App = {
     }
   },
 
+  formatGapSampleAnswers(gap) {
+    const rawList = [
+      gap?.answer,
+      ...(Array.isArray(gap?.alternatives) ? gap.alternatives : []),
+      ...(Array.isArray(gap?.acceptedAnswers) ? gap.acceptedAnswers : [])
+    ].filter(Boolean);
+    const unique = [];
+    const seen = new Set();
+    rawList.forEach(item => {
+      const cleaned = String(item).trim();
+      const key = cleaned.toLowerCase();
+      if (cleaned && !seen.has(key)) {
+        seen.add(key);
+        unique.push(cleaned);
+      }
+    });
+    return unique;
+  },
+
   // Comprobar Modo 1
   checkMode1(rawEx) {
     const ex = GeminiClient.normalizeExercise('mode1', rawEx);
@@ -1011,7 +1121,9 @@ const App = {
       this.recordQuestionInHistory('mode1', ex.id);
     }
 
+    const useRelaxed = Boolean(this.state.noHintMode);
     let allCorrect = true;
+    let hasFlexibleMatch = false;
     const userAnswers = [];
 
     ex.gaps.forEach(gap => {
@@ -1019,7 +1131,17 @@ const App = {
       const val = (input?.value || '').trim();
       userAnswers.push(val);
 
-      const isGapCorrect = GeminiClient.validateGap(val, gap.answer, gap.alternatives);
+      let isGapCorrect = false;
+      if (useRelaxed) {
+        const relaxedRes = GeminiClient.validateGapRelaxed(val, gap, ex.sentence || '', ex.category || '');
+        isGapCorrect = relaxedRes.isValid;
+        if (relaxedRes.isValid && relaxedRes.isFlexibleMatch) {
+          hasFlexibleMatch = true;
+        }
+      } else {
+        isGapCorrect = GeminiClient.validateGap(val, gap.answer, gap.alternatives);
+      }
+
       if (input) {
         input.classList.remove('correct', 'incorrect');
         input.classList.add(isGapCorrect ? 'correct' : 'incorrect');
@@ -1031,15 +1153,32 @@ const App = {
       .map((g, idx) => (g.infinitive ? `${g.infinitive} ➔ "${g.answer}"` : `Hueco ${idx + 1} ➔ "${g.answer}"`))
       .join(' | ');
 
+    const exampleAnswers = ex.gaps
+      .map((g, idx) => {
+        const samples = this.formatGapSampleAnswers(g).map(a => `"${a}"`).join(' / ');
+        return g.infinitive ? `${g.infinitive} ➔ ${samples}` : `Hueco ${idx + 1} ➔ ${samples}`;
+      })
+      .join(' | ');
+
     if (allCorrect) {
       SoundEffects.playCorrect();
-      this.showFeedback({
-        type: 'correct',
-        title: '¡Correcto! Muy bien resuelto',
-        message: 'Has aplicado la forma verbal o preposición exacta que pide la frase.',
-        rule: ex.rule,
-        expectedText: `Forma correcta: ${expectedAnswers}`
-      });
+      if (useRelaxed && hasFlexibleMatch) {
+        this.showFeedback({
+          type: 'correct',
+          title: '¡Válido! Aceptado en modo Sin pista',
+          message: 'Tu respuesta encaja gramatical y contextualmente en la frase (corrección flexible activa).',
+          rule: ex.rule,
+          expectedText: `Ejemplos de respuestas habituales: ${exampleAnswers}`
+        });
+      } else {
+        this.showFeedback({
+          type: 'correct',
+          title: '¡Correcto! Muy bien resuelto',
+          message: 'Has aplicado la forma verbal o preposición exacta que pide la frase.',
+          rule: ex.rule,
+          expectedText: `Forma correcta: ${expectedAnswers}`
+        });
+      }
       StorageManager.recordResult('mode1', true);
       if (ex.isFromErrorBank && ex.errorBankId) {
         StorageManager.resolveError(ex.errorBankId);
@@ -1133,14 +1272,26 @@ const App = {
       this.recordQuestionInHistory('mode3', ex.id);
     }
 
+    const useRelaxed = Boolean(this.state.noHintMode);
     let correctCount = 0;
+    let hasFlexibleMatch = false;
     const totalGaps = ex.gaps.length;
     const breakdown = [];
 
     ex.gaps.forEach((gap, index) => {
       const input = document.getElementById(`cloze-gap-${gap.id}`);
       const val = (input?.value || '').trim();
-      const isGapCorrect = GeminiClient.validateGap(val, gap.answer, gap.alternatives);
+
+      let isGapCorrect = false;
+      if (useRelaxed) {
+        const relaxedRes = GeminiClient.validateGapRelaxed(val, gap, ex.textTemplate || '', 'Cloze Test');
+        isGapCorrect = relaxedRes.isValid;
+        if (relaxedRes.isValid && relaxedRes.isFlexibleMatch) {
+          hasFlexibleMatch = true;
+        }
+      } else {
+        isGapCorrect = GeminiClient.validateGap(val, gap.answer, gap.alternatives);
+      }
 
       if (input) {
         input.classList.remove('correct', 'incorrect');
@@ -1157,16 +1308,29 @@ const App = {
     const isAllOrMostCorrect = correctCount === totalGaps;
     const isPassing = correctCount >= Math.ceil(totalGaps * 0.7);
     const fullSolutions = ex.gaps.map((g, i) => `#${i + 1}: "${g.answer}" (${g.infinitive})`).join(' · ');
+    const fullExamples = ex.gaps
+      .map((g, i) => `#${i + 1}: ${this.formatGapSampleAnswers(g).slice(0, 3).map(a => `"${a}"`).join(' / ')} (${g.infinitive})`)
+      .join(' · ');
 
     if (isAllOrMostCorrect) {
       SoundEffects.playCorrect();
-      this.showFeedback({
-        type: 'correct',
-        title: `¡Puntuación perfecta! ${correctCount}/${totalGaps} aciertos`,
-        message: 'Has clavado todas las palabras del texto.',
-        rule: ex.generalRule,
-        expectedText: `Respuestas: ${fullSolutions}`
-      });
+      if (useRelaxed && hasFlexibleMatch) {
+        this.showFeedback({
+          type: 'correct',
+          title: `¡Puntuación perfecta! ${correctCount}/${totalGaps} válidos (Sin pista)`,
+          message: 'Tus respuestas mantienen coherencia con el contexto (corrección flexible activa).',
+          rule: ex.generalRule,
+          expectedText: `Ejemplos de respuestas habituales: ${fullExamples}`
+        });
+      } else {
+        this.showFeedback({
+          type: 'correct',
+          title: `¡Puntuación perfecta! ${correctCount}/${totalGaps} aciertos`,
+          message: 'Has clavado todas las palabras del texto.',
+          rule: ex.generalRule,
+          expectedText: `Respuestas: ${fullSolutions}`
+        });
+      }
       StorageManager.recordResult('mode3', true, 25);
       if (ex.isFromErrorBank && ex.errorBankId) {
         StorageManager.resolveError(ex.errorBankId);
@@ -1175,10 +1339,16 @@ const App = {
       SoundEffects.playCorrect();
       this.showFeedback({
         type: 'partial',
-        title: `¡Buen trabajo! ${correctCount}/${totalGaps} aciertos`,
-        message: `Has acertado la gran mayoría del relato.`,
+        title: useRelaxed && hasFlexibleMatch
+          ? `¡Buen trabajo! ${correctCount}/${totalGaps} válidos (Sin pista)`
+          : `¡Buen trabajo! ${correctCount}/${totalGaps} aciertos`,
+        message: useRelaxed && hasFlexibleMatch
+          ? 'Has acertado la gran mayoría del relato con corrección flexible activa.'
+          : 'Has acertado la gran mayoría del relato.',
         rule: ex.generalRule,
-        expectedText: `Correcciones pendientes: ${breakdown.join(' · ')}`
+        expectedText: useRelaxed && hasFlexibleMatch
+          ? `Correcciones pendientes: ${breakdown.join(' · ')}\nEjemplos habituales: ${fullExamples}`
+          : `Correcciones pendientes: ${breakdown.join(' · ')}`
       });
       StorageManager.recordResult('mode3', true, 15);
       if (ex.isFromErrorBank && ex.errorBankId) {

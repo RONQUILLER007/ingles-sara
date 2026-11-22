@@ -378,27 +378,31 @@ const GeminiClient = {
           ex.gaps = gapMatches.map((match, idx) => {
             const gapNum = match[1] || String(idx + 1);
             const parenHint = match[2] ? match[2].trim() : '';
+            const fallbackHint = /preposition/i.test(ex.category || '') ? 'PREPOSITION' : 'VERB / WORD';
             const ans = answers[idx] !== undefined ? answers[idx] : (answers[0] || ex.answer);
             const perGapAlts = (Array.isArray(ex.gapAlternatives) && Array.isArray(ex.gapAlternatives[idx]))
               ? ex.gapAlternatives[idx]
               : (Array.isArray(ex.alternatives) ? ex.alternatives : []);
             return {
               id: `gap${gapNum}`,
-              infinitive: parenHint,
+              infinitive: parenHint || fallbackHint,
               answer: ans,
               alternatives: perGapAlts,
+              acceptedAnswers: Array.isArray(ex.acceptedAnswers) ? ex.acceptedAnswers : [],
               hint: ex.category || ''
             };
           });
         } else {
           const parenMatch = ex.sentence.match(/_____\s*\(([^)]+)\)/);
-          const extractedInf = parenMatch ? parenMatch[1].trim() : '';
+          const fallbackHint = /preposition/i.test(ex.category || '') ? 'PREPOSITION' : 'VERB / WORD';
+          const extractedInf = parenMatch ? parenMatch[1].trim() : fallbackHint;
           ex.gaps = [
             {
               id: 'gap1',
               infinitive: extractedInf,
               answer: answers[0] || ex.answer,
               alternatives: Array.isArray(ex.alternatives) ? ex.alternatives : [],
+              acceptedAnswers: Array.isArray(ex.acceptedAnswers) ? ex.acceptedAnswers : [],
               hint: ex.category || ''
             }
           ];
@@ -458,15 +462,16 @@ const GeminiClient = {
       }
     }
 
-    // MODO 3: Cloze Test (10 relatos de viajes)
+    // MODO 3: Cloze Test (30 relatos)
     if (modeKey === 'mode3' || ex.blanks || ex.textTemplate || ex.text) {
       if (!Array.isArray(ex.gaps) && Array.isArray(ex.blanks)) {
         ex.gaps = ex.blanks.map((b, idx) => ({
           id: `gap${b.index || idx + 1}`,
-          infinitive: b.hint || `hueco ${idx + 1}`,
+          infinitive: b.hint || `GAP ${idx + 1}`,
           answer: b.answer,
           alternatives: b.alternatives || [],
-          explanation: b.hint ? `"${b.hint}" se traduce como "${b.answer}".` : `Respuesta: "${b.answer}".`
+          acceptedAnswers: b.acceptedAnswers || [],
+          explanation: b.hint ? `"${b.hint}" -> "${b.answer}".` : `Respuesta: "${b.answer}".`
         }));
       }
       if (!ex.textTemplate && ex.text) {
@@ -790,6 +795,116 @@ const GeminiClient = {
       }
     }
     return false;
+  },
+
+  // Validación laxa y flexible para modo "Sin pista" (acepta alternativas válidas o respuestas coherentes en contexto)
+  validateGapRelaxed(userAnswer, gap, contextText = '', category = '') {
+    const trimmedUser = String(userAnswer || '').trim();
+    if (!trimmedUser) {
+      return { isValid: false, isFlexibleMatch: false };
+    }
+
+    const candidates = [
+      gap?.answer,
+      ...(Array.isArray(gap?.alternatives) ? gap.alternatives : []),
+      ...(Array.isArray(gap?.acceptedAnswers) ? gap.acceptedAnswers : [])
+    ].filter(Boolean);
+
+    // 1. Coincidencia estándar con answer / alternatives / acceptedAnswers
+    if (candidates.length > 0 && this.validateGap(trimmedUser, candidates[0], candidates.slice(1))) {
+      return { isValid: true, isFlexibleMatch: false };
+    }
+
+    // 2. Comprobación de plausibilidad inglesa y coherencia gramatical en modo Sin pista
+    const rawClean = this.normalizeApostrophes(trimmedUser).toLowerCase().trim();
+    if (!/^[a-z'\-\s]+$/.test(rawClean)) {
+      return { isValid: false, isFlexibleMatch: false };
+    }
+
+    const normUser = this.expandContractions(trimmedUser);
+    if (!normUser) {
+      return { isValid: false, isFlexibleMatch: false };
+    }
+
+    const words = normUser.split(' ').filter(Boolean);
+    const expectedWordCount = this.normalizeText(gap?.answer || '').split(' ').filter(Boolean).length || 1;
+    const maxWords = Math.max(5, expectedWordCount + 3);
+    const letterCount = normUser.replace(/[^a-z]/g, '').length;
+
+    if (words.length === 0 || words.length > maxWords) {
+      return { isValid: false, isFlexibleMatch: false };
+    }
+    if (letterCount < 2 && !['a', 'i'].includes(normUser)) {
+      return { isValid: false, isFlexibleMatch: false };
+    }
+    if (!words.every(w => /[aeiouy]/.test(w)) || words.some(w => /(.)\1{3,}/.test(w))) {
+      return { isValid: false, isFlexibleMatch: false };
+    }
+
+    const spanishWords = new Set([
+      'el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas',
+      'porque', 'pero', 'muy', 'hola', 'prueba', 'nada', 'nose',
+      'si', 'que', 'como', 'cuando', 'donde', 'para', 'por',
+      'respuesta', 'hueco', 'verbo', 'pasado', 'futuro'
+    ]);
+    if (/^no\s+se$/.test(normUser) || words.some(w => spanishWords.has(w))) {
+      return { isValid: false, isFlexibleMatch: false };
+    }
+
+    const normExpected = this.expandContractions(gap?.answer || '');
+    const expWords = normExpected.split(' ').filter(Boolean);
+
+    const PREPOSITIONS = new Set([
+      'to', 'by', 'about', 'with', 'in', 'of', 'for', 'at', 'on', 'from', 'into',
+      'over', 'under', 'through', 'during', 'after', 'before', 'between', 'among',
+      'against', 'without', 'towards', 'toward', 'across', 'along', 'around',
+      'behind', 'beside', 'beyond', 'upon', 'onto', 'off', 'out', 'up', 'down',
+      'back', 'away', 'as', 'like'
+    ]);
+
+    const FUNCTIONAL_CONNECTORS = new Set([
+      'unless', 'if', 'provided', 'providing', 'whether', 'although', 'though',
+      'while', 'whereas', 'when', 'until', 'till', 'before', 'after', 'because',
+      'since', 'as', 'so', 'yet', 'but', 'only', 'case', 'long', 'even', 'ever',
+      'condition', 'not'
+    ]);
+
+    const AUXILIARIES_MODALS = new Set([
+      'had', 'would', 'could', 'might', 'will', 'can', 'may', 'should', 'must',
+      'have', 'has', 'was', 'were', 'be', 'being', 'been', 'did', 'do', 'does',
+      'is', 'are', 'am', 'shall', 'ought', 'not', 'never'
+    ]);
+
+    const DETERMINERS_ONLY = new Set(['the', 'a', 'an', 'this', 'that', 'these', 'those']);
+
+    // Hueco de preposición pura
+    if (expWords.length === 1 && PREPOSITIONS.has(expWords[0])) {
+      const multiPreps = new Set(['in front of', 'next to', 'because of', 'due to', 'according to', 'out of', 'instead of']);
+      const isValidPrep = (words.length === 1 && PREPOSITIONS.has(words[0])) || multiPreps.has(normUser);
+      return { isValid: isValidPrep, isFlexibleMatch: isValidPrep };
+    }
+
+    // Hueco de conector condicional / locución breve
+    if (expWords.length === 1 && ['unless', 'provided', 'case', 'long', 'only'].includes(expWords[0])) {
+      const isValidConn = words.length <= 2 && words.every(w => FUNCTIONAL_CONNECTORS.has(w));
+      return { isValid: isValidConn, isFlexibleMatch: isValidConn };
+    }
+
+    // Hueco de auxiliar / modal aislado
+    if (expWords.length === 1 && AUXILIARIES_MODALS.has(expWords[0])) {
+      const isValidAux = words.length <= 3 && (
+        AUXILIARIES_MODALS.has(words[0]) ||
+        (words.length >= 2 && AUXILIARIES_MODALS.has(words[words.length - 1]))
+      );
+      return { isValid: isValidAux, isFlexibleMatch: isValidAux };
+    }
+
+    // Huecos abiertos verbales o léxicos (rechazar determinantes aislados sin contenido)
+    if (words.length === 1 && DETERMINERS_ONLY.has(words[0])) {
+      return { isValid: false, isFlexibleMatch: false };
+    }
+
+    return { isValid: true, isFlexibleMatch: true };
   },
 
   // Contar palabras en tiempo real para Writing Lab (Modo 5)

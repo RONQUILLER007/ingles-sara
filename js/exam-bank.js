@@ -493,73 +493,73 @@ const EXAM_BANK = {
     },
     {
       "id": 66,
-      "sentence": "After living in Norway for five years, she has finally become accustomed {{gap1}} the freezing winters.",
+      "sentence": "After living in Norway for five years, she has finally become accustomed {{gap1}} (PREPOSITION) the freezing winters.",
       "answer": "to",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 67,
-      "sentence": "All the tourists were amazed {{gap1}} the breathtaking views from the top of the canyon.",
+      "sentence": "All the tourists were amazed {{gap1}} (PREPOSITION) the breathtaking views from the top of the canyon.",
       "answer": "by",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 68,
-      "sentence": "Our organization is deeply committed {{gap1}} protecting endangered species around the world.",
+      "sentence": "Our organization is deeply committed {{gap1}} (PREPOSITION) protecting endangered species around the world.",
       "answer": "to",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 69,
-      "sentence": "Young children are naturally curious {{gap1}} how the world around them works.",
+      "sentence": "Young children are naturally curious {{gap1}} (PREPOSITION) how the world around them works.",
       "answer": "about",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 70,
-      "sentence": "The coach was very disappointed {{gap1}} the team's performance in the second half.",
+      "sentence": "The coach was very disappointed {{gap1}} (PREPOSITION) the team's performance in the second half.",
       "answer": "with",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 71,
-      "sentence": "We are all really excited {{gap1}} our upcoming trip to Japan next month.",
+      "sentence": "We are all really excited {{gap1}} (PREPOSITION) our upcoming trip to Japan next month.",
       "answer": "about",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 72,
-      "sentence": "She is highly experienced {{gap1}} dealing with international clients and complex negotiations.",
+      "sentence": "She is highly experienced {{gap1}} (PREPOSITION) dealing with international clients and complex negotiations.",
       "answer": "in",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 73,
-      "sentence": "The passengers were frustrated {{gap1}} the lack of information regarding their delayed flight.",
+      "sentence": "The passengers were frustrated {{gap1}} (PREPOSITION) the lack of information regarding their delayed flight.",
       "answer": "by",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 74,
-      "sentence": "The interviewers were genuinely impressed {{gap1}} her fluency in three foreign languages.",
+      "sentence": "The interviewers were genuinely impressed {{gap1}} (PREPOSITION) her fluency in three foreign languages.",
       "answer": "with",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 75,
-      "sentence": "He has always been jealous {{gap1}} his older brother's academic success.",
+      "sentence": "He has always been jealous {{gap1}} (PREPOSITION) his older brother's academic success.",
       "answer": "of",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 76,
-      "sentence": "This coastal town is extremely popular {{gap1}} surfers from all over Europe.",
+      "sentence": "This coastal town is extremely popular {{gap1}} (PREPOSITION) surfers from all over Europe.",
       "answer": "with",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 77,
-      "sentence": "Who is responsible {{gap1}} organizing the accommodation for the conference?",
+      "sentence": "Who is responsible {{gap1}} (PREPOSITION) organizing the accommodation for the conference?",
       "answer": "for",
       "category": "Adjectives and Prepositions"
     },
@@ -642,67 +642,67 @@ const EXAM_BANK = {
     },
     {
       "id": 90,
-      "sentence": "She is curious {{gap1}} the job offer, and the company is impressed {{gap2}} her CV.",
+      "sentence": "She is curious {{gap1}} (PREPOSITION) the job offer, and the company is impressed {{gap2}} (PREPOSITION) her CV.",
       "answer": "about / with",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 91,
-      "sentence": "Although he is experienced {{gap1}} software design, he is frustrated {{gap2}} the outdated computers.",
+      "sentence": "Although he is experienced {{gap1}} (PREPOSITION) software design, he is frustrated {{gap2}} (PREPOSITION) the outdated computers.",
       "answer": "in / by",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 92,
-      "sentence": "The manager is responsible {{gap1}} customer service and committed {{gap2}} improving quality.",
+      "sentence": "The manager is responsible {{gap1}} (PREPOSITION) customer service and committed {{gap2}} (PREPOSITION) improving quality.",
       "answer": "for / to",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 93,
-      "sentence": "Instead of being jealous {{gap1}} her sister, she was amazed {{gap2}} her sister's talent.",
+      "sentence": "Instead of being jealous {{gap1}} (PREPOSITION) her sister, she was amazed {{gap2}} (PREPOSITION) her sister's talent.",
       "answer": "of / by",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 94,
-      "sentence": "Tourists who are not accustomed {{gap1}} spicy food might be disappointed {{gap2}} the local dishes.",
+      "sentence": "Tourists who are not accustomed {{gap1}} (PREPOSITION) spicy food might be disappointed {{gap2}} (PREPOSITION) the local dishes.",
       "answer": "to / with",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 95,
-      "sentence": "Teenagers are excited {{gap1}} the new festival, which is very popular {{gap2}} local bands.",
+      "sentence": "Teenagers are excited {{gap1}} (PREPOSITION) the new festival, which is very popular {{gap2}} (PREPOSITION) local bands.",
       "answer": "about / with",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 96,
-      "sentence": "He is still not accustomed {{gap1}} driving on the left, so he gets frustrated {{gap2}} heavy traffic.",
+      "sentence": "He is still not accustomed {{gap1}} (PREPOSITION) driving on the left, so he gets frustrated {{gap2}} (PREPOSITION) heavy traffic.",
       "answer": "to / by",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 97,
-      "sentence": "Were you disappointed {{gap1}} the hotel, or were you impressed {{gap2}} its facilities?",
+      "sentence": "Were you disappointed {{gap1}} (PREPOSITION) the hotel, or were you impressed {{gap2}} (PREPOSITION) its facilities?",
       "answer": "with / with",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 98,
-      "sentence": "The chef is responsible {{gap1}} the menu and experienced {{gap2}} French cuisine.",
+      "sentence": "The chef is responsible {{gap1}} (PREPOSITION) the menu and experienced {{gap2}} (PREPOSITION) French cuisine.",
       "answer": "for / in",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 99,
-      "sentence": "We are committed {{gap1}} helping students who are curious {{gap2}} science.",
+      "sentence": "We are committed {{gap1}} (PREPOSITION) helping students who are curious {{gap2}} (PREPOSITION) science.",
       "answer": "to / about",
       "category": "Adjectives and Prepositions"
     },
     {
       "id": 100,
-      "sentence": "Everyone was amazed {{gap1}} the singer, who has become hugely popular {{gap2}} young audiences.",
+      "sentence": "Everyone was amazed {{gap1}} (PREPOSITION) the singer, who has become hugely popular {{gap2}} (PREPOSITION) young audiences.",
       "answer": "by / with",
       "category": "Adjectives and Prepositions"
     },
@@ -4462,37 +4462,37 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "abroad",
-          "hint": "al / en el extranjero"
+          "hint": "OVERSEAS"
         },
         {
           "index": 2,
           "answer": "in advance",
-          "hint": "con antelación, previamente"
+          "hint": "BEFOREHAND"
         },
         {
           "index": 3,
           "answer": "deal",
-          "hint": "oferta; trato"
+          "hint": "BARGAIN"
         },
         {
           "index": 4,
           "answer": "off season",
-          "hint": "en temporada baja"
+          "hint": "LOW SEASON"
         },
         {
           "index": 5,
           "answer": "carry-on",
-          "hint": "de mano (equipaje)"
+          "hint": "HAND LUGGAGE"
         },
         {
           "index": 6,
           "answer": "location",
-          "hint": "ubicación, lugar"
+          "hint": "PLACE"
         },
         {
           "index": 7,
           "answer": "delayed",
-          "hint": "retrasado/a, demorado/a"
+          "hint": "LATE"
         }
       ],
       "generalRule": "Vocabulario clave de viajes (Travel): abroad (en el extranjero), in advance (con antelación), deal (oferta), off season (temporada baja), carry-on (de mano), location (ubicación), delayed (retrasado), outdoors (al aire libre), trail (sendero), overnight (de una noche) y stopover (escala)."
@@ -4505,37 +4505,37 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "outdoors",
-          "hint": "al aire libre"
+          "hint": "OUTSIDE"
         },
         {
           "index": 2,
           "answer": "trail",
-          "hint": "camino, sendero"
+          "hint": "PATH"
         },
         {
           "index": 3,
           "answer": "in advance",
-          "hint": "con antelación, previamente"
+          "hint": "BEFOREHAND"
         },
         {
           "index": 4,
           "answer": "deal",
-          "hint": "oferta; trato"
+          "hint": "BARGAIN"
         },
         {
           "index": 5,
           "answer": "off season",
-          "hint": "en temporada baja"
+          "hint": "LOW SEASON"
         },
         {
           "index": 6,
           "answer": "carry-on",
-          "hint": "de mano"
+          "hint": "HAND LUGGAGE"
         },
         {
           "index": 7,
           "answer": "overnight",
-          "hint": "por / de una noche"
+          "hint": "ONE-NIGHT"
         }
       ],
       "generalRule": "Vocabulario clave de viajes (Travel): abroad (en el extranjero), in advance (con antelación), deal (oferta), off season (temporada baja), carry-on (de mano), location (ubicación), delayed (retrasado), outdoors (al aire libre), trail (sendero), overnight (de una noche) y stopover (escala)."
@@ -4548,37 +4548,37 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "abroad",
-          "hint": "en el extranjero"
+          "hint": "OVERSEAS"
         },
         {
           "index": 2,
           "answer": "in advance",
-          "hint": "con antelación"
+          "hint": "BEFOREHAND"
         },
         {
           "index": 3,
           "answer": "deal",
-          "hint": "oferta"
+          "hint": "BARGAIN"
         },
         {
           "index": 4,
           "answer": "stopover",
-          "hint": "escala"
+          "hint": "FLIGHT BREAK"
         },
         {
           "index": 5,
           "answer": "overnight",
-          "hint": "para pasar una noche"
+          "hint": "ONE-NIGHT"
         },
         {
           "index": 6,
           "answer": "carry-on",
-          "hint": "de mano"
+          "hint": "HAND LUGGAGE"
         },
         {
           "index": 7,
           "answer": "delayed",
-          "hint": "retrasados"
+          "hint": "LATE"
         }
       ],
       "generalRule": "Vocabulario clave de viajes (Travel): abroad (en el extranjero), in advance (con antelación), deal (oferta), off season (temporada baja), carry-on (de mano), location (ubicación), delayed (retrasado), outdoors (al aire libre), trail (sendero), overnight (de una noche) y stopover (escala)."
@@ -4591,42 +4591,42 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "stopover",
-          "hint": "escala"
+          "hint": "FLIGHT BREAK"
         },
         {
           "index": 2,
           "answer": "in advance",
-          "hint": "previamente"
+          "hint": "BEFOREHAND"
         },
         {
           "index": 3,
           "answer": "delayed",
-          "hint": "retrasado"
+          "hint": "LATE"
         },
         {
           "index": 4,
           "answer": "overnight",
-          "hint": "de una noche"
+          "hint": "ONE-NIGHT"
         },
         {
           "index": 5,
           "answer": "location",
-          "hint": "ubicación"
+          "hint": "PLACE"
         },
         {
           "index": 6,
           "answer": "carry-on",
-          "hint": "de mano"
+          "hint": "HAND LUGGAGE"
         },
         {
           "index": 7,
           "answer": "abroad",
-          "hint": "al extranjero"
+          "hint": "OVERSEAS"
         },
         {
           "index": 8,
           "answer": "trail",
-          "hint": "sendero"
+          "hint": "PATH"
         }
       ],
       "generalRule": "Vocabulario clave de viajes (Travel): abroad (en el extranjero), in advance (con antelación), deal (oferta), off season (temporada baja), carry-on (de mano), location (ubicación), delayed (retrasado), outdoors (al aire libre), trail (sendero), overnight (de una noche) y stopover (escala)."
@@ -4639,37 +4639,37 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "outdoors",
-          "hint": "al aire libre"
+          "hint": "OUTSIDE"
         },
         {
           "index": 2,
           "answer": "off season",
-          "hint": "en temporada baja"
+          "hint": "LOW SEASON"
         },
         {
           "index": 3,
           "answer": "deal",
-          "hint": "oferta"
+          "hint": "BARGAIN"
         },
         {
           "index": 4,
           "answer": "in advance",
-          "hint": "con antelación"
+          "hint": "BEFOREHAND"
         },
         {
           "index": 5,
           "answer": "trail",
-          "hint": "camino, sendero"
+          "hint": "PATH"
         },
         {
           "index": 6,
           "answer": "location",
-          "hint": "ubicación, lugar"
+          "hint": "PLACE"
         },
         {
           "index": 7,
           "answer": "overnight",
-          "hint": "de una noche"
+          "hint": "ONE-NIGHT"
         }
       ],
       "generalRule": "Vocabulario clave de viajes (Travel): abroad (en el extranjero), in advance (con antelación), deal (oferta), off season (temporada baja), carry-on (de mano), location (ubicación), delayed (retrasado), outdoors (al aire libre), trail (sendero), overnight (de una noche) y stopover (escala)."
@@ -4682,37 +4682,37 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "abroad",
-          "hint": "al extranjero"
+          "hint": "OVERSEAS"
         },
         {
           "index": 2,
           "answer": "in advance",
-          "hint": "con antelación"
+          "hint": "BEFOREHAND"
         },
         {
           "index": 3,
           "answer": "deal",
-          "hint": "oferta"
+          "hint": "BARGAIN"
         },
         {
           "index": 4,
           "answer": "off season",
-          "hint": "en temporada baja"
+          "hint": "LOW SEASON"
         },
         {
           "index": 5,
           "answer": "stopover",
-          "hint": "escala"
+          "hint": "FLIGHT BREAK"
         },
         {
           "index": 6,
           "answer": "carry-on",
-          "hint": "de mano"
+          "hint": "HAND LUGGAGE"
         },
         {
           "index": 7,
           "answer": "location",
-          "hint": "ubicación"
+          "hint": "PLACE"
         }
       ],
       "generalRule": "Vocabulario clave de viajes (Travel): abroad (en el extranjero), in advance (con antelación), deal (oferta), off season (temporada baja), carry-on (de mano), location (ubicación), delayed (retrasado), outdoors (al aire libre), trail (sendero), overnight (de una noche) y stopover (escala)."
@@ -4725,42 +4725,42 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "abroad",
-          "hint": "al extranjero"
+          "hint": "OVERSEAS"
         },
         {
           "index": 2,
           "answer": "outdoors",
-          "hint": "al aire libre"
+          "hint": "OUTSIDE"
         },
         {
           "index": 3,
           "answer": "in advance",
-          "hint": "previamente"
+          "hint": "BEFOREHAND"
         },
         {
           "index": 4,
           "answer": "trail",
-          "hint": "sendero"
+          "hint": "PATH"
         },
         {
           "index": 5,
           "answer": "off season",
-          "hint": "en temporada baja"
+          "hint": "LOW SEASON"
         },
         {
           "index": 6,
           "answer": "deal",
-          "hint": "oferta"
+          "hint": "BARGAIN"
         },
         {
           "index": 7,
           "answer": "location",
-          "hint": "ubicación"
+          "hint": "PLACE"
         },
         {
           "index": 8,
           "answer": "delayed",
-          "hint": "retrasado"
+          "hint": "LATE"
         }
       ],
       "generalRule": "Vocabulario clave de viajes (Travel): abroad (en el extranjero), in advance (con antelación), deal (oferta), off season (temporada baja), carry-on (de mano), location (ubicación), delayed (retrasado), outdoors (al aire libre), trail (sendero), overnight (de una noche) y stopover (escala)."
@@ -4773,37 +4773,37 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "delayed",
-          "hint": "retrasado"
+          "hint": "LATE"
         },
         {
           "index": 2,
           "answer": "in advance",
-          "hint": "con antelación"
+          "hint": "BEFOREHAND"
         },
         {
           "index": 3,
           "answer": "carry-on",
-          "hint": "de mano"
+          "hint": "HAND LUGGAGE"
         },
         {
           "index": 4,
           "answer": "stopover",
-          "hint": "escala"
+          "hint": "FLIGHT BREAK"
         },
         {
           "index": 5,
           "answer": "overnight",
-          "hint": "de una noche"
+          "hint": "ONE-NIGHT"
         },
         {
           "index": 6,
           "answer": "location",
-          "hint": "ubicación"
+          "hint": "PLACE"
         },
         {
           "index": 7,
           "answer": "abroad",
-          "hint": "en el extranjero"
+          "hint": "OVERSEAS"
         }
       ],
       "generalRule": "Vocabulario clave de viajes (Travel): abroad (en el extranjero), in advance (con antelación), deal (oferta), off season (temporada baja), carry-on (de mano), location (ubicación), delayed (retrasado), outdoors (al aire libre), trail (sendero), overnight (de una noche) y stopover (escala)."
@@ -4816,37 +4816,37 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "trail",
-          "hint": "camino, sendero"
+          "hint": "PATH"
         },
         {
           "index": 2,
           "answer": "abroad",
-          "hint": "el extranjero"
+          "hint": "OVERSEAS"
         },
         {
           "index": 3,
           "answer": "outdoors",
-          "hint": "al aire libre"
+          "hint": "OUTSIDE"
         },
         {
           "index": 4,
           "answer": "off season",
-          "hint": "en temporada baja"
+          "hint": "LOW SEASON"
         },
         {
           "index": 5,
           "answer": "in advance",
-          "hint": "con antelación"
+          "hint": "BEFOREHAND"
         },
         {
           "index": 6,
           "answer": "carry-on",
-          "hint": "de mano"
+          "hint": "HAND LUGGAGE"
         },
         {
           "index": 7,
           "answer": "overnight",
-          "hint": "por una noche"
+          "hint": "ONE-NIGHT"
         }
       ],
       "generalRule": "Vocabulario clave de viajes (Travel): abroad (en el extranjero), in advance (con antelación), deal (oferta), off season (temporada baja), carry-on (de mano), location (ubicación), delayed (retrasado), outdoors (al aire libre), trail (sendero), overnight (de una noche) y stopover (escala)."
@@ -4859,37 +4859,37 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "deal",
-          "hint": "oferta"
+          "hint": "BARGAIN"
         },
         {
           "index": 2,
           "answer": "in advance",
-          "hint": "con antelación"
+          "hint": "BEFOREHAND"
         },
         {
           "index": 3,
           "answer": "stopover",
-          "hint": "escala"
+          "hint": "FLIGHT BREAK"
         },
         {
           "index": 4,
           "answer": "delayed",
-          "hint": "retrasado"
+          "hint": "LATE"
         },
         {
           "index": 5,
           "answer": "location",
-          "hint": "ubicación"
+          "hint": "PLACE"
         },
         {
           "index": 6,
           "answer": "outdoors",
-          "hint": "al aire libre"
+          "hint": "OUTSIDE"
         },
         {
           "index": 7,
           "answer": "trail",
-          "hint": "sendero"
+          "hint": "PATH"
         }
       ],
       "generalRule": "Vocabulario clave de viajes (Travel): abroad (en el extranjero), in advance (con antelación), deal (oferta), off season (temporada baja), carry-on (de mano), location (ubicación), delayed (retrasado), outdoors (al aire libre), trail (sendero), overnight (de una noche) y stopover (escala)."
@@ -4902,7 +4902,7 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "had",
-          "hint": "Auxiliar de Past Perfect (3er condicional)"
+          "hint": "AUXILIARY (PAST PERFECT)"
         },
         {
           "index": 2,
@@ -4911,27 +4911,27 @@ const EXAM_BANK = {
             "could",
             "might"
           ],
-          "hint": "Modal del resultado en 3er condicional"
+          "hint": "MODAL"
         },
         {
           "index": 3,
           "answer": "had",
-          "hint": "If only + Past Perfect (arrepentimiento pasado)"
+          "hint": "AUXILIARY (PAST PERFECT)"
         },
         {
           "index": 4,
           "answer": "provided",
-          "hint": "Conector condicional: 'siempre y cuando'"
+          "hint": "CONNECTOR (IF)"
         },
         {
           "index": 5,
           "answer": "wish",
-          "hint": "Verbo para expresar deseo presente ('ojalá')"
+          "hint": "WISH"
         },
         {
           "index": 6,
           "answer": "unless",
-          "hint": "Conector condicional negativo ('a menos que')"
+          "hint": "CONNECTOR (IF NOT)"
         }
       ],
       "generalRule": "Condicionales (Zero, 1st, 2nd, 3rd, Mixed), conectores condicionales (unless, provided that, as long as, in case) y deseos o quejas con I wish / If only (+ Past Simple, Past Perfect o would)."
@@ -4944,7 +4944,7 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "wish",
-          "hint": "Estructura de deseo sobre el presente"
+          "hint": "WISH"
         },
         {
           "index": 2,
@@ -4952,7 +4952,7 @@ const EXAM_BANK = {
           "alternatives": [
             "was"
           ],
-          "hint": "Past Simple de 'be' en 2º condicional"
+          "hint": "BE"
         },
         {
           "index": 3,
@@ -4961,27 +4961,27 @@ const EXAM_BANK = {
             "would",
             "might"
           ],
-          "hint": "Modal de capacidad hipotética en 2º condicional"
+          "hint": "MODAL (ABILITY)"
         },
         {
           "index": 4,
           "answer": "only",
-          "hint": "Expresión equivalente a 'I wish'"
+          "hint": "IF ___ (REGRET)"
         },
         {
           "index": 5,
           "answer": "would",
-          "hint": "Auxiliar tras 'If only' para quejas/hábitos molestos"
+          "hint": "MODAL"
         },
         {
           "index": 6,
           "answer": "find",
-          "hint": "Verbo 'encontrar' en Present Simple (1er condicional)"
+          "hint": "FIND"
         },
         {
           "index": 7,
           "answer": "will",
-          "hint": "Auxiliar de futuro probable en 1er condicional"
+          "hint": "FUTURE MODAL"
         }
       ],
       "generalRule": "Condicionales (Zero, 1st, 2nd, 3rd, Mixed), conectores condicionales (unless, provided that, as long as, in case) y deseos o quejas con I wish / If only (+ Past Simple, Past Perfect o would)."
@@ -4994,12 +4994,12 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "had",
-          "hint": "Auxiliar de Past Perfect tras 'wished'"
+          "hint": "AUXILIARY (PAST PERFECT)"
         },
         {
           "index": 2,
           "answer": "study",
-          "hint": "Verbo 'estudiar' en Present Simple (1er condicional)"
+          "hint": "STUDY"
         },
         {
           "index": 3,
@@ -5008,22 +5008,22 @@ const EXAM_BANK = {
             "will",
             "may"
           ],
-          "hint": "Modal de posibilidad/capacidad en 1er condicional"
+          "hint": "MODAL"
         },
         {
           "index": 4,
           "answer": "revise",
-          "hint": "Verbo 'repasar' en Zero Conditional (hecho general)"
+          "hint": "REVISE"
         },
         {
           "index": 5,
           "answer": "case",
-          "hint": "Locución 'in ___' (por si acaso)"
+          "hint": "IN ___"
         },
         {
           "index": 6,
           "answer": "unless",
-          "hint": "Conector 'a menos que / si no'"
+          "hint": "CONNECTOR (IF NOT)"
         },
         {
           "index": 7,
@@ -5031,7 +5031,7 @@ const EXAM_BANK = {
           "alternatives": [
             "would"
           ],
-          "hint": "Modal en pasado tras 'If only' (capacidad)"
+          "hint": "MODAL (ABILITY)"
         }
       ],
       "generalRule": "Condicionales (Zero, 1st, 2nd, 3rd, Mixed), conectores condicionales (unless, provided that, as long as, in case) y deseos o quejas con I wish / If only (+ Past Simple, Past Perfect o would)."
@@ -5044,12 +5044,12 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "drops",
-          "hint": "Zero Conditional: verbo 'bajar/caer' (3ª pers. sing.)"
+          "hint": "DROP"
         },
         {
           "index": 2,
           "answer": "had",
-          "hint": "Auxiliar de Past Perfect en 3er condicional"
+          "hint": "AUXILIARY (PAST PERFECT)"
         },
         {
           "index": 3,
@@ -5058,12 +5058,12 @@ const EXAM_BANK = {
             "could",
             "might"
           ],
-          "hint": "Modal del resultado en 3er condicional"
+          "hint": "MODAL"
         },
         {
           "index": 4,
           "answer": "would",
-          "hint": "Auxiliar tras 'wish' para desear un cambio externo"
+          "hint": "MODAL"
         },
         {
           "index": 5,
@@ -5072,17 +5072,17 @@ const EXAM_BANK = {
             "would",
             "could"
           ],
-          "hint": "Modal de posibilidad pasada en 3er condicional"
+          "hint": "MODAL (POSSIBILITY)"
         },
         {
           "index": 6,
           "answer": "unless",
-          "hint": "Conector condicional negativo"
+          "hint": "CONNECTOR (IF NOT)"
         },
         {
           "index": 7,
           "answer": "had",
-          "hint": "Auxiliar de Past Perfect para arrepentimiento"
+          "hint": "AUXILIARY (PAST PERFECT)"
         }
       ],
       "generalRule": "Condicionales (Zero, 1st, 2nd, 3rd, Mixed), conectores condicionales (unless, provided that, as long as, in case) y deseos o quejas con I wish / If only (+ Past Simple, Past Perfect o would)."
@@ -5095,7 +5095,7 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "had",
-          "hint": "Past Simple de 'have' en 2º condicional"
+          "hint": "HAVE"
         },
         {
           "index": 2,
@@ -5104,12 +5104,12 @@ const EXAM_BANK = {
             "could",
             "might"
           ],
-          "hint": "Auxiliar de resultado hipotético en 2º condicional"
+          "hint": "MODAL"
         },
         {
           "index": 3,
           "answer": "could",
-          "hint": "Pasado de 'can' tras 'wishes'"
+          "hint": "MODAL (ABILITY)"
         },
         {
           "index": 4,
@@ -5117,22 +5117,22 @@ const EXAM_BANK = {
           "alternatives": [
             "was"
           ],
-          "hint": "Forma subjuntiva de 'be' en 2º condicional"
+          "hint": "BE"
         },
         {
           "index": 5,
           "answer": "would",
-          "hint": "Modal para dar consejo en 2º condicional"
+          "hint": "MODAL"
         },
         {
           "index": 6,
           "answer": "unless",
-          "hint": "Conector condicional: 'a menos que'"
+          "hint": "CONNECTOR (IF NOT)"
         },
         {
           "index": 7,
           "answer": "only",
-          "hint": "Expresión 'If ___' para expresar deseo fuerte"
+          "hint": "IF ___ (REGRET)"
         }
       ],
       "generalRule": "Condicionales (Zero, 1st, 2nd, 3rd, Mixed), conectores condicionales (unless, provided that, as long as, in case) y deseos o quejas con I wish / If only (+ Past Simple, Past Perfect o would)."
@@ -5145,37 +5145,37 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "builds",
-          "hint": "Zero Conditional: 'build up' (3ª pers. sing. -> builds)"
+          "hint": "BUILD"
         },
         {
           "index": 2,
           "answer": "had",
-          "hint": "Auxiliar de Past Perfect en 3er condicional"
+          "hint": "AUXILIARY (PAST PERFECT)"
         },
         {
           "index": 3,
           "answer": "have",
-          "hint": "Auxiliar en 'wouldn't ___ + participio'"
+          "hint": "AUXILIARY"
         },
         {
           "index": 4,
           "answer": "wish",
-          "hint": "Verbo para expresar arrepentimiento"
+          "hint": "WISH"
         },
         {
           "index": 5,
           "answer": "would",
-          "hint": "Pasado de 'will' en estilo indirecto / promesa"
+          "hint": "MODAL"
         },
         {
           "index": 6,
           "answer": "long",
-          "hint": "Locución condicional 'as ___ as'"
+          "hint": "AS ___ AS"
         },
         {
           "index": 7,
           "answer": "goes",
-          "hint": "Present Simple en 1er condicional (3ª pers. sing.)"
+          "hint": "GO"
         }
       ],
       "generalRule": "Condicionales (Zero, 1st, 2nd, 3rd, Mixed), conectores condicionales (unless, provided that, as long as, in case) y deseos o quejas con I wish / If only (+ Past Simple, Past Perfect o would)."
@@ -5188,37 +5188,37 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "scored",
-          "hint": "Past Simple (condicional en contexto narrativo pasado)"
+          "hint": "SCORE"
         },
         {
           "index": 2,
           "answer": "would",
-          "hint": "Modal condicional en narración pasada"
+          "hint": "MODAL"
         },
         {
           "index": 3,
           "answer": "have",
-          "hint": "Modal perfecto: 'might ___ + participio'"
+          "hint": "AUXILIARY"
         },
         {
           "index": 4,
           "answer": "had",
-          "hint": "Auxiliar de Past Perfect en 3er condicional"
+          "hint": "AUXILIARY (PAST PERFECT)"
         },
         {
           "index": 5,
           "answer": "only",
-          "hint": "Expresión de arrepentimiento pasado"
+          "hint": "IF ___ (REGRET)"
         },
         {
           "index": 6,
           "answer": "beat",
-          "hint": "Present Simple en 1er condicional ('beat yourself up')"
+          "hint": "BEAT"
         },
         {
           "index": 7,
           "answer": "wish",
-          "hint": "Deseo sobre el presente ('ojalá pudiera')"
+          "hint": "WISH"
         }
       ],
       "generalRule": "Condicionales (Zero, 1st, 2nd, 3rd, Mixed), conectores condicionales (unless, provided that, as long as, in case) y deseos o quejas con I wish / If only (+ Past Simple, Past Perfect o would)."
@@ -5231,22 +5231,22 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "wish",
-          "hint": "Verbo de deseo/queja"
+          "hint": "WISH"
         },
         {
           "index": 2,
           "answer": "would",
-          "hint": "Auxiliar para quejas sobre hábitos de otra persona"
+          "hint": "MODAL"
         },
         {
           "index": 3,
           "answer": "leaves",
-          "hint": "Zero Conditional: verbo 'dejar' (3ª pers. sing.)"
+          "hint": "LEAVE"
         },
         {
           "index": 4,
           "answer": "unless",
-          "hint": "Conector condicional negativo ('si no')"
+          "hint": "CONNECTOR (IF NOT)"
         },
         {
           "index": 5,
@@ -5254,17 +5254,17 @@ const EXAM_BANK = {
           "alternatives": [
             "was"
           ],
-          "hint": "Past Simple de 'be' tras 'If only' (deseo presente)"
+          "hint": "BE"
         },
         {
           "index": 6,
           "answer": "follow",
-          "hint": "Verbo 'seguir' en Present Simple (1er condicional)"
+          "hint": "FOLLOW"
         },
         {
           "index": 7,
           "answer": "will",
-          "hint": "Auxiliar de futuro probable en 1er condicional"
+          "hint": "FUTURE MODAL"
         }
       ],
       "generalRule": "Condicionales (Zero, 1st, 2nd, 3rd, Mixed), conectores condicionales (unless, provided that, as long as, in case) y deseos o quejas con I wish / If only (+ Past Simple, Past Perfect o would)."
@@ -5277,7 +5277,7 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "had",
-          "hint": "Auxiliar de Past Perfect en 3er condicional"
+          "hint": "AUXILIARY (PAST PERFECT)"
         },
         {
           "index": 2,
@@ -5286,22 +5286,22 @@ const EXAM_BANK = {
             "could",
             "might"
           ],
-          "hint": "Modal del resultado en 3er condicional"
+          "hint": "MODAL"
         },
         {
           "index": 3,
           "answer": "had",
-          "hint": "Auxiliar de Past Perfect tras 'wished'"
+          "hint": "AUXILIARY (PAST PERFECT)"
         },
         {
           "index": 4,
           "answer": "case",
-          "hint": "Expresión 'in ___' (por si acaso)"
+          "hint": "IN ___"
         },
         {
           "index": 5,
           "answer": "were",
-          "hint": "Past Simple de 'be' en 2º condicional"
+          "hint": "BE"
         },
         {
           "index": 6,
@@ -5310,12 +5310,12 @@ const EXAM_BANK = {
             "would",
             "could"
           ],
-          "hint": "Modal de posibilidad hipotética en 2º condicional"
+          "hint": "MODAL (POSSIBILITY)"
         },
         {
           "index": 7,
           "answer": "only",
-          "hint": "Expresión 'If ___' + Past Simple"
+          "hint": "IF ___ (REGRET)"
         }
       ],
       "generalRule": "Condicionales (Zero, 1st, 2nd, 3rd, Mixed), conectores condicionales (unless, provided that, as long as, in case) y deseos o quejas con I wish / If only (+ Past Simple, Past Perfect o would)."
@@ -5328,12 +5328,12 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "immerse",
-          "hint": "Zero Conditional: verbo 'sumergirse'"
+          "hint": "IMMERSE"
         },
         {
           "index": 2,
           "answer": "had",
-          "hint": "Auxiliar de Past Perfect en 3er condicional"
+          "hint": "AUXILIARY (PAST PERFECT)"
         },
         {
           "index": 3,
@@ -5342,27 +5342,27 @@ const EXAM_BANK = {
             "could",
             "might"
           ],
-          "hint": "Modal de resultado en 3er condicional"
+          "hint": "MODAL"
         },
         {
           "index": 4,
           "answer": "wish",
-          "hint": "Deseo sobre una característica presente"
+          "hint": "WISH"
         },
         {
           "index": 5,
           "answer": "provided",
-          "hint": "Conector condicional: 'siempre que'"
+          "hint": "CONNECTOR (IF)"
         },
         {
           "index": 6,
           "answer": "unless",
-          "hint": "Conector condicional negativo ('a menos que')"
+          "hint": "CONNECTOR (IF NOT)"
         },
         {
           "index": 7,
           "answer": "will",
-          "hint": "Auxiliar de futuro en 1er condicional"
+          "hint": "FUTURE MODAL"
         }
       ],
       "generalRule": "Condicionales (Zero, 1st, 2nd, 3rd, Mixed), conectores condicionales (unless, provided that, as long as, in case) y deseos o quejas con I wish / If only (+ Past Simple, Past Perfect o would)."
@@ -5375,37 +5375,37 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "had",
-          "hint": "Auxiliar de Past Perfect en 3er condicional"
+          "hint": "AUXILIARY (PAST PERFECT)"
         },
         {
           "index": 2,
           "answer": "have",
-          "hint": "Auxiliar en 'wouldn't ___ + participio'"
+          "hint": "AUXILIARY"
         },
         {
           "index": 3,
           "answer": "only",
-          "hint": "Expresión 'If ___' para arrepentimiento"
+          "hint": "IF ___ (REGRET)"
         },
         {
           "index": 4,
           "answer": "had",
-          "hint": "Past Perfect tras 'If only'"
+          "hint": "AUXILIARY (PAST PERFECT)"
         },
         {
           "index": 5,
           "answer": "long",
-          "hint": "Conector condicional 'as ___ as'"
+          "hint": "AS ___ AS"
         },
         {
           "index": 6,
           "answer": "comes",
-          "hint": "Present Simple en 1er condicional ('come up')"
+          "hint": "COME"
         },
         {
           "index": 7,
           "answer": "will",
-          "hint": "Auxiliar de futuro en 1er condicional"
+          "hint": "FUTURE MODAL"
         }
       ],
       "generalRule": "Condicionales (Zero, 1st, 2nd, 3rd, Mixed), conectores condicionales (unless, provided that, as long as, in case) y deseos o quejas con I wish / If only (+ Past Simple, Past Perfect o would)."
@@ -5418,12 +5418,12 @@ const EXAM_BANK = {
         {
           "index": 1,
           "answer": "expand",
-          "hint": "Zero Conditional: verbo 'ampliar'"
+          "hint": "EXPAND"
         },
         {
           "index": 2,
           "answer": "had",
-          "hint": "Past Simple de 'have' en 2º condicional"
+          "hint": "HAVE"
         },
         {
           "index": 3,
@@ -5432,32 +5432,32 @@ const EXAM_BANK = {
             "could",
             "might"
           ],
-          "hint": "Modal de resultado hipotético en 2º condicional"
+          "hint": "MODAL"
         },
         {
           "index": 4,
           "answer": "wish",
-          "hint": "Verbo para expresar deseo de cambio"
+          "hint": "WISH"
         },
         {
           "index": 5,
           "answer": "would",
-          "hint": "Auxiliar tras 'wish' para cambio deseado"
+          "hint": "MODAL"
         },
         {
           "index": 6,
           "answer": "be",
-          "hint": "Infinitivo en condicional mixto (resultado presente)"
+          "hint": "BE"
         },
         {
           "index": 7,
           "answer": "provided",
-          "hint": "Conector condicional: 'siempre y cuando'"
+          "hint": "CONNECTOR (IF)"
         },
         {
           "index": 8,
           "answer": "changes",
-          "hint": "Present Simple tras 'unless' (3ª pers. sing.)"
+          "hint": "CHANGE"
         }
       ],
       "generalRule": "Condicionales (Zero, 1st, 2nd, 3rd, Mixed), conectores condicionales (unless, provided that, as long as, in case) y deseos o quejas con I wish / If only (+ Past Simple, Past Perfect o would)."
@@ -5473,7 +5473,7 @@ const EXAM_BANK = {
           "alternatives": [
             "set out"
           ],
-          "hint": "phrasal verb: salir de viaje (pasado)"
+          "hint": "SET OFF"
         },
         {
           "index": 2,
@@ -5481,12 +5481,12 @@ const EXAM_BANK = {
           "alternatives": [
             "were climbing"
           ],
-          "hint": "Past Continuous: conducir cuesta arriba"
+          "hint": "DRIVE"
         },
         {
           "index": 3,
           "answer": "broke down",
-          "hint": "phrasal verb: averiarse (pasado)"
+          "hint": "BREAK DOWN"
         },
         {
           "index": 4,
@@ -5494,7 +5494,7 @@ const EXAM_BANK = {
           "alternatives": [
             "'d forgotten"
           ],
-          "hint": "Past Perfect: olvidar previamente"
+          "hint": "FORGET"
         },
         {
           "index": 5,
@@ -5503,7 +5503,7 @@ const EXAM_BANK = {
             "was checking",
             "was removing"
           ],
-          "hint": "Past Continuous: retirar/despejar"
+          "hint": "CLEAR"
         },
         {
           "index": 6,
@@ -5512,7 +5512,7 @@ const EXAM_BANK = {
             "drove",
             "'d driven"
           ],
-          "hint": "Past Perfect / Past Simple: llevar en coche"
+          "hint": "DRIVE"
         }
       ],
       "generalRule": "Narración en pasado (Past Simple para hechos principales, Past Continuous para acciones en desarrollo y Past Perfect para acciones anteriores) combinada con phrasal verbs de viaje: set off (salir de viaje) y break down (averiarse)."
@@ -5529,7 +5529,7 @@ const EXAM_BANK = {
             "'d left",
             "had forgotten"
           ],
-          "hint": "Past Perfect: dejar olvidada antes"
+          "hint": "LEAVE"
         },
         {
           "index": 2,
@@ -5537,12 +5537,12 @@ const EXAM_BANK = {
           "alternatives": [
             "had closed"
           ],
-          "hint": "Past Continuous: estaban cerrando"
+          "hint": "CLOSE"
         },
         {
           "index": 3,
           "answer": "gave up",
-          "hint": "phrasal verb: perder / abandonar (pasado)"
+          "hint": "GIVE UP"
         },
         {
           "index": 4,
@@ -5550,7 +5550,7 @@ const EXAM_BANK = {
           "alternatives": [
             "found"
           ],
-          "hint": "phrasal verb: encontrar por casualidad (pasado)"
+          "hint": "COME ACROSS"
         },
         {
           "index": 5,
@@ -5560,7 +5560,7 @@ const EXAM_BANK = {
             "rang",
             "contacted"
           ],
-          "hint": "phrasal verb / verbo: llamar por teléfono (pasado)"
+          "hint": "CALL UP"
         },
         {
           "index": 6,
@@ -5569,12 +5569,12 @@ const EXAM_BANK = {
             "arrived",
             "landed"
           ],
-          "hint": "phrasal verb: bajar del barco (pasado)"
+          "hint": "GET OFF"
         },
         {
           "index": 7,
           "answer": "picked",
-          "hint": "phrasal verb con 'up': recoger (pasado)"
+          "hint": "PICK"
         }
       ],
       "generalRule": "Contraste narrativo entre Past Perfect (had left), Past Continuous (were closing) y phrasal verbs en pasado: give up (rendirse/perder la esperanza), come across (encontrarse por casualidad), get off (bajar de un transporte) y pick up (recoger)."
@@ -5591,12 +5591,12 @@ const EXAM_BANK = {
             "was writing",
             "was typing"
           ],
-          "hint": "Past Continuous: acción en curso"
+          "hint": "FINISH"
         },
         {
           "index": 2,
           "answer": "went",
-          "hint": "phrasal verb go out (con 'out' fuera): apagarse (pasado)"
+          "hint": "GO"
         },
         {
           "index": 3,
@@ -5605,7 +5605,7 @@ const EXAM_BANK = {
             "had worked",
             "had been trying"
           ],
-          "hint": "Past Perfect: acción previa por la tarde"
+          "hint": "TRY"
         },
         {
           "index": 4,
@@ -5613,7 +5613,7 @@ const EXAM_BANK = {
           "alternatives": [
             "give up"
           ],
-          "hint": "phrasal verb: posponer / aplazar (infinitivo)"
+          "hint": "PUT OFF"
         },
         {
           "index": 5,
@@ -5623,7 +5623,7 @@ const EXAM_BANK = {
             "arrived",
             "showed up"
           ],
-          "hint": "phrasal verb: aparecer / llegar (pasado)"
+          "hint": "TURN UP"
         },
         {
           "index": 6,
@@ -5632,7 +5632,7 @@ const EXAM_BANK = {
             "were talking",
             "were sitting"
           ],
-          "hint": "Past Continuous: charlar durante un rato"
+          "hint": "CHAT"
         }
       ],
       "generalRule": "Narrativa con Past Continuous (was finishing, were chatting), Past Perfect (had tried) y phrasal verbs cotidianos: go out (apagarse la luz), put off (posponer) y turn up (aparecer/llegar)."
@@ -5648,7 +5648,7 @@ const EXAM_BANK = {
           "alternatives": [
             "had prepared"
           ],
-          "hint": "Past Perfect Continuous: duración previa (for three weeks)"
+          "hint": "PREPARE"
         },
         {
           "index": 2,
@@ -5657,7 +5657,7 @@ const EXAM_BANK = {
             "discover",
             "realise"
           ],
-          "hint": "phrasal verb: descubrir / enterarse (infinitivo)"
+          "hint": "FIND OUT"
         },
         {
           "index": 3,
@@ -5667,7 +5667,7 @@ const EXAM_BANK = {
             "had not brought",
             "hadn't brought"
           ],
-          "hint": "Past Perfect negativo: no haber metido/traído"
+          "hint": "NOT PACK"
         },
         {
           "index": 4,
@@ -5675,12 +5675,12 @@ const EXAM_BANK = {
           "alternatives": [
             "was searching"
           ],
-          "hint": "Past Continuous: estar buscando"
+          "hint": "LOOK"
         },
         {
           "index": 5,
           "answer": "came",
-          "hint": "phrasal verb come up with (con 'up with' fuera): idear (pasado)"
+          "hint": "COME"
         },
         {
           "index": 6,
@@ -5688,7 +5688,7 @@ const EXAM_BANK = {
           "alternatives": [
             "came"
           ],
-          "hint": "phrasal verb go off (smoothly) -> con 'off' fuera: salir bien (pasado)"
+          "hint": "GO"
         }
       ],
       "generalRule": "Uso de Past Perfect Continuous (had been preparing para duración previa a un evento pasado), Past Perfect negativo (hadn't packed), Past Continuous (was looking) y phrasal verbs: find out (descubrir), come up [with] (idear) y go off (salir bien/desarrollarse)."
@@ -5704,7 +5704,7 @@ const EXAM_BANK = {
           "alternatives": [
             "was getting"
           ],
-          "hint": "Past Continuous: volverse/ponerse (viento)"
+          "hint": "GROW"
         },
         {
           "index": 2,
@@ -5712,7 +5712,7 @@ const EXAM_BANK = {
           "alternatives": [
             "ran"
           ],
-          "hint": "phrasal verb run out of (con 'out of' fuera): quedarse sin"
+          "hint": "RUN"
         },
         {
           "index": 3,
@@ -5721,7 +5721,7 @@ const EXAM_BANK = {
             "had sent",
             "sent"
           ],
-          "hint": "Past Perfect: emitir un aviso antes (con 'out' fuera)"
+          "hint": "PUT"
         },
         {
           "index": 4,
@@ -5729,7 +5729,7 @@ const EXAM_BANK = {
           "alternatives": [
             "pulled"
           ],
-          "hint": "phrasal verb put on (con 'on' fuera): ponerse ropa (pasado)"
+          "hint": "PUT"
         },
         {
           "index": 5,
@@ -5738,7 +5738,7 @@ const EXAM_BANK = {
             "had searched",
             "had been looking"
           ],
-          "hint": "Past Perfect Continuous: llevar buscando dos horas"
+          "hint": "SEARCH"
         },
         {
           "index": 6,
@@ -5747,7 +5747,7 @@ const EXAM_BANK = {
             "tied",
             "turned"
           ],
-          "hint": "phrasal verb end up (con 'up' fuera): terminar/acabar en (pasado)"
+          "hint": "END"
         }
       ],
       "generalRule": "Past Perfect Simple y Continuous (had run, had put, had been searching) junto a Past Continuous (was growing) y phrasal verbs: run out of (quedarse sin), put out (emitir), put on (ponerse ropa) y end up (terminar)."
@@ -5764,7 +5764,7 @@ const EXAM_BANK = {
             "'d arrived",
             "had moved in"
           ],
-          "hint": "Past Perfect: llegar antes del mediodía"
+          "hint": "ARRIVE"
         },
         {
           "index": 2,
@@ -5773,7 +5773,7 @@ const EXAM_BANK = {
             "was cleaning",
             "was organising"
           ],
-          "hint": "Past Continuous: ordenar la cocina"
+          "hint": "TIDY"
         },
         {
           "index": 3,
@@ -5783,7 +5783,7 @@ const EXAM_BANK = {
             "set",
             "stepped"
           ],
-          "hint": "verbo + 'out': salir hacia la tienda (pasado)"
+          "hint": "GO"
         },
         {
           "index": 4,
@@ -5792,7 +5792,7 @@ const EXAM_BANK = {
             "had cooked",
             "was making"
           ],
-          "hint": "Past Continuous / Past Perfect: preparar la cena"
+          "hint": "COOK"
         },
         {
           "index": 5,
@@ -5800,12 +5800,12 @@ const EXAM_BANK = {
           "alternatives": [
             "had carried"
           ],
-          "hint": "Past Perfect Continuous: cargar muebles toda la tarde"
+          "hint": "CARRY"
         },
         {
           "index": 6,
           "answer": "got",
-          "hint": "phrasal verb get on well (con 'on' fuera): llevarse bien (pasado)"
+          "hint": "GET"
         }
       ],
       "generalRule": "Integración de Past Perfect Continuous (had been carrying para explicar el cansancio pasado), Past Perfect (had arrived), Past Continuous (was tidying) y phrasal verbs: find out, set up, go out y get on well (llevarse bien)."
@@ -5822,7 +5822,7 @@ const EXAM_BANK = {
             "had been practicing",
             "had practised"
           ],
-          "hint": "Past Perfect Continuous: practicar durante horas antes"
+          "hint": "PRACTISE"
         },
         {
           "index": 2,
@@ -5831,7 +5831,7 @@ const EXAM_BANK = {
             "were reading",
             "were going"
           ],
-          "hint": "Past Continuous: revisar la partitura"
+          "hint": "LOOK"
         },
         {
           "index": 3,
@@ -5839,7 +5839,7 @@ const EXAM_BANK = {
           "alternatives": [
             "had never performed"
           ],
-          "hint": "Past Perfect negativo/nunca: no haber tocado nunca antes"
+          "hint": "NEVER PLAY"
         },
         {
           "index": 4,
@@ -5848,7 +5848,7 @@ const EXAM_BANK = {
             "went",
             "kept"
           ],
-          "hint": "phrasal verb carry on (con 'on' fuera): continuar (pasado)"
+          "hint": "CARRY"
         },
         {
           "index": 5,
@@ -5856,7 +5856,7 @@ const EXAM_BANK = {
           "alternatives": [
             "figured"
           ],
-          "hint": "phrasal verb work/figure out (con 'out' fuera): resolver/descubrir cómo"
+          "hint": "WORK"
         },
         {
           "index": 6,
@@ -5864,7 +5864,7 @@ const EXAM_BANK = {
           "alternatives": [
             "gotten"
           ],
-          "hint": "phrasal verb get in (con 'in' fuera): ser admitida (participio)"
+          "hint": "GET"
         }
       ],
       "generalRule": "Tiempos narrativos del pasado (had been practising, had never played, were looking) y phrasal verbs frecuentes: look over (revisar), carry on (continuar), work out / figure out (descubrir/resolver) y get in (entrar/ser admitido)."
@@ -5880,12 +5880,12 @@ const EXAM_BANK = {
           "alternatives": [
             "gave"
           ],
-          "hint": "Past Perfect + 'away': regalar/donar antes de jubilarse"
+          "hint": "GIVE"
         },
         {
           "index": 2,
           "answer": "took",
-          "hint": "phrasal verb take over (con 'over' fuera): hacerse cargo de (pasado)"
+          "hint": "TAKE"
         },
         {
           "index": 3,
@@ -5893,7 +5893,7 @@ const EXAM_BANK = {
           "alternatives": [
             "were hanging"
           ],
-          "hint": "Past Continuous + 'up': colgar carteles"
+          "hint": "PUT"
         },
         {
           "index": 4,
@@ -5902,7 +5902,7 @@ const EXAM_BANK = {
             "brought",
             "put"
           ],
-          "hint": "Past Perfect / Past Simple + 'back': devolver/traer de vuelta"
+          "hint": "BRING"
         },
         {
           "index": 5,
@@ -5911,12 +5911,12 @@ const EXAM_BANK = {
             "had been sorting",
             "had unpacked"
           ],
-          "hint": "Past Perfect Continuous: llevar desembalando desde el alba"
+          "hint": "UNPACK"
         },
         {
           "index": 6,
           "answer": "turn",
-          "hint": "phrasal verb turn down (con 'down' fuera): rechazar (infinitivo)"
+          "hint": "TURN"
         }
       ],
       "generalRule": "Relato en pasado con Past Perfect (had given, had been unpacking), Past Continuous (were putting) y phrasal verbs con preposición: give away (donar), take over (hacerse cargo), put up (colgar), bring back (devolver) y turn down (rechazar)."

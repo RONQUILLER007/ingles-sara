@@ -7,8 +7,15 @@ correcciones/
 banco_gigante.json
 database_*.json
 
-# Archivos temporales y del sistema operativo
+# Archivos temporales, respaldos y del sistema operativo
 __pycache__/
+*.tmp
+*.bak
+*.orig
+*.swp
+*.log
+*.zip
+progreso_ingles_sara_*.json
 .DS_Store
 Thumbs.db
 desktop.ini

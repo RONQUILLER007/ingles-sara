@@ -1,6 +1,6 @@
 # 🎓 Inglés Sara - Preparador de Exámenes PWA (100 % Offline)
 
-Aplicación Web Progresiva (PWA) de alto rendimiento, diseñada con **HTML5, Tailwind CSS y JavaScript Vanilla**, inspirada en la agilidad y diversión de **Duolingo** y adaptada al 100 % al temario oficial y patrones de examen de Sara (`contexto_examenes.md`).
+Aplicación Web Progresiva (PWA) de alto rendimiento, diseñada con **HTML5, Tailwind CSS y JavaScript Vanilla**, inspirada en la agilidad y diversión de **Duolingo** y adaptada al 100 % al temario oficial y patrones de examen de Sara (`AGENTS.md`).
 
 La aplicación es **100 % autónoma y offline**: cuenta con un banco oficial de **324 ejercicios reales de examen**, motor de validación léxico-gramatical flexible en el propio dispositivo, explicaciones detalladas en español para cada fallo o acierto, y sistema de rotación inteligente sin repeticiones.
 

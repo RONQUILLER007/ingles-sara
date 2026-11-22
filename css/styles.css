@@ -1163,6 +1163,117 @@ body.dark-mode #feedback-sheet {
   box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.5);
 }
 
+/* Interruptor manual "Sin pista" (Modos 1 y 3) */
+.no-hint-toggle-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 9999px;
+  background-color: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  color: #334155;
+  font-size: 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.2s ease;
+}
+
+.no-hint-toggle-wrapper:hover {
+  border-color: #94a3b8;
+  background-color: #f1f5f9;
+}
+
+.no-hint-toggle-wrapper.is-active {
+  background-color: #f0fdfa;
+  border-color: #14b8a6;
+  color: #0f766e;
+}
+
+.no-hint-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.no-hint-switch-track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 2.35rem;
+  height: 1.3rem;
+  border-radius: 9999px;
+  background-color: #cbd5e1;
+  padding: 0.125rem;
+  transition: background-color 0.22s ease;
+  flex-shrink: 0;
+}
+
+.no-hint-switch-thumb {
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.28);
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.no-hint-checkbox:checked + .no-hint-switch-track {
+  background-color: #14b8a6;
+}
+
+.no-hint-checkbox:checked + .no-hint-switch-track .no-hint-switch-thumb {
+  transform: translateX(1.05rem);
+}
+
+.no-hint-checkbox:focus-visible + .no-hint-switch-track {
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.35);
+}
+
+.no-hint-mode-tag {
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.1rem 0.4rem;
+  border-radius: 9999px;
+  background-color: #ccfbf1;
+  color: #0f766e;
+}
+
+body.dark-mode .no-hint-toggle-wrapper {
+  background-color: #0f172a;
+  border-color: #475569;
+  color: #e2e8f0;
+}
+
+body.dark-mode .no-hint-toggle-wrapper:hover {
+  background-color: #1e293b;
+  border-color: #64748b;
+}
+
+body.dark-mode .no-hint-toggle-wrapper.is-active {
+  background-color: rgba(19, 78, 74, 0.45);
+  border-color: #14b8a6;
+  color: #99f6e4;
+}
+
+body.dark-mode .no-hint-switch-track {
+  background-color: #475569;
+}
+
+body.dark-mode .no-hint-checkbox:checked + .no-hint-switch-track {
+  background-color: #14b8a6;
+}
+
+body.dark-mode .no-hint-mode-tag {
+  background-color: rgba(17, 94, 89, 0.75);
+  color: #5eead4;
+}
+
 /* Accesibilidad: respetar prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   *,
