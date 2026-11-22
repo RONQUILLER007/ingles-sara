@@ -43,8 +43,16 @@ const App = {
     this.initTheme();
     this.loadQuestionHistory();
 
-    // Registrar Service Worker si es compatible
+    // Registrar Service Worker si es compatible y recargar una sola vez cuando tome control una versión nueva
     if ('serviceWorker' in navigator) {
+      const hadController = Boolean(navigator.serviceWorker.controller);
+      let swReloading = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!hadController || swReloading) return;
+        swReloading = true;
+        window.location.reload();
+      });
+
       const swUrl = new URL('sw.js', window.location.href).href;
       navigator.serviceWorker.register(swUrl, { scope: './' })
         .then(reg => {

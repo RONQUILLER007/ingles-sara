@@ -11,7 +11,7 @@ Optimizada específicamente para uso táctil en su tablet **Xiaomi Pad 8** y esc
 ## 🌟 Características Principales
 
 ### 1. Banco Oficial Offline de 836 Ejercicios
-- **100 % Autónomo y Offline Real:** Funciona sin conexión a internet gracias al Service Worker (`sw.js`, versión `ingles-sara-v20`), que precachea todos los activos locales junto con los recursos externos confiables necesarios (Tailwind CSS CDN y Google Fonts *Nunito*, incluyendo respuestas `opaque`).
+- **100 % Autónomo y Offline Real:** Funciona sin conexión a internet gracias al Service Worker (`sw.js`, versión `ingles-sara-v21`), que precachea todos los activos locales junto con los recursos externos confiables necesarios (Tailwind CSS CDN y Google Fonts *Nunito*, incluyendo respuestas `opaque`).
 - **Distribución exacta de ejercicios por modalidad:**
   - **Modo 1 (Tiempos Verbales, Preposiciones, Condicionales y Deseos):** **260 ejercicios** (**353 huecos**) con 1 y 2 huecos (`{{gap1}}`, `{{gap2}}`), verbos estáticos vs. dinámicos, futuros, pasados, colocaciones de adjetivo + preposición, condicionales e `I wish / If only`. Pistas en **inglés** por defecto junto a cada hueco e interruptor manual **"Sin pista"**.
   - **Modo 2 (Rephrasing de Examen — *Key Word Transformation*):** **321 transformaciones** categorizadas (*So/Such, Too/Enough, Prefer/Would rather, Although/Despite, By the time, Present Perfect, Voz Pasiva, Reported Speech, Condicionales, Deseos `I wish / If only` y Transformación de Tiempos Verbales*).
@@ -58,7 +58,7 @@ Optimizada específicamente para uso táctil en su tablet **Xiaomi Pad 8** y esc
 
 ### 1. Publicación automática en GitHub Pages (`RONQUILLER007/ingles-sara`)
 - Repositorio configurado con publicación continua en la rama `main` (`https://ronquiller007.github.io/ingles-sara/`).
-- La caché de la PWA se controla mediante `CACHE_NAME` en `sw.js` (actualmente `ingles-sara-v20`) y query strings `?v=20` en `index.html`.
+- La caché de la PWA se controla mediante `CACHE_NAME` en `sw.js` (actualmente `ingles-sara-v21`) y query strings `?v=21` en `index.html`. Al publicarse una nueva versión, `sw.js` ejecuta `skipWaiting()` y `clients.claim()` y la aplicación realiza una única recarga automática al detectar `controllerchange` para cargar los cambios al instante.
 
 ### 2. Instalar en la Xiaomi Pad 8 (PWA a pantalla completa):
 1. En **Google Chrome** en la tablet, abre la URL de GitHub Pages (`https://ronquiller007.github.io/ingles-sara/`).
@@ -74,9 +74,9 @@ Optimizada específicamente para uso táctil en su tablet **Xiaomi Pad 8** y esc
 ├── .gitignore         # Exclusión de temporales, respaldos y archivos ajenos a la web
 ├── AGENTS.md          # Reglas operativas, flujo Git automático y temario oficial fusionado
 ├── README.md          # Documentación principal y resumen actualizado de la aplicación
-├── index.html         # Interfaz táctil responsive (?v=20 + Google Fonts + Tailwind CDN)
+├── index.html         # Interfaz táctil responsive (?v=21 + Google Fonts + Tailwind CDN)
 ├── manifest.json      # Manifiesto PWA para instalación en tablet y escritorio
-├── sw.js              # Service Worker offline (ingles-sara-v20, locales + CDN/Fonts opaque)
+├── sw.js              # Service Worker offline (ingles-sara-v21, locales + CDN/Fonts opaque)
 ├── css/
 │   └── styles.css     # Estilos Duolingo 3D, Modo Oscuro, interruptor Sin pista y animaciones 60 FPS
 ├── js/
