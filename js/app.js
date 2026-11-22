@@ -639,7 +639,6 @@ const App = {
           </div>
           <div class="flex items-center gap-2 flex-wrap">
             ${this.renderNoHintToggleHtml()}
-            ${ex.category ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-black bg-slate-100 text-slate-600">${ex.category}</span>` : ''}
           </div>
         </div>
 
@@ -679,7 +678,6 @@ const App = {
             <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
             <span>Reescribe la oración para que signifique lo mismo usando la palabra obligatoria:</span>
           </div>
-          ${ex.category ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-black bg-amber-100 text-amber-800">${ex.category}</span>` : ''}
         </div>
 
         <!-- Oración original -->
@@ -795,7 +793,6 @@ const App = {
             <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <span>Pregunta Teórica y Trampas Gramaticales Frecuentes:</span>
           </div>
-          ${ex.category ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-black bg-purple-100 text-purple-700">${ex.category}</span>` : ''}
         </div>
 
         <div class="p-6 md:p-8 bg-purple-50/60 rounded-3xl border-2 border-purple-200 shadow-sm text-xl md:text-2xl font-bold text-slate-900 leading-snug">
@@ -839,7 +836,6 @@ const App = {
               <span class="text-lg">✍️</span>
               <span>Sentence Upgrading (Mejora formal B2/C1):</span>
             </div>
-            <span class="px-3 py-1 rounded-full text-xs font-black bg-teal-100 text-teal-700">${ex.essay_type}</span>
           </div>
 
           <!-- Frase básica B1 y conectores objetivo -->
@@ -933,10 +929,6 @@ const App = {
             <div class="flex items-center gap-2">
               <span class="text-lg">🧩</span>
               <span>Paragraph Builder (Ordena las 4 frases del párrafo):</span>
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="px-3 py-1 rounded-full text-xs font-black bg-teal-100 text-teal-700">${ex.essay_type}</span>
-              <span class="px-3 py-1 rounded-full text-xs font-black bg-slate-200 text-slate-700">${ex.paragraph_role}</span>
             </div>
           </div>
 
@@ -1168,6 +1160,8 @@ const App = {
       })
       .join(' | ');
 
+    const mode1Category = ex.category || 'Tiempos Verbales';
+
     if (allCorrect) {
       SoundEffects.playCorrect();
       if (useRelaxed && hasFlexibleMatch) {
@@ -1176,7 +1170,8 @@ const App = {
           title: '¡Válido! Aceptado en modo Sin pista',
           message: 'Tu respuesta encaja gramatical y contextualmente en la frase (corrección flexible activa).',
           rule: ex.rule,
-          expectedText: `Ejemplos de respuestas habituales: ${exampleAnswers}`
+          expectedText: `Ejemplos de respuestas habituales: ${exampleAnswers}`,
+          category: mode1Category
         });
       } else {
         this.showFeedback({
@@ -1184,7 +1179,8 @@ const App = {
           title: '¡Correcto! Muy bien resuelto',
           message: 'Has aplicado la forma verbal o preposición exacta que pide la frase.',
           rule: ex.rule,
-          expectedText: `Forma correcta: ${expectedAnswers}`
+          expectedText: `Forma correcta: ${expectedAnswers}`,
+          category: mode1Category
         });
       }
       StorageManager.recordResult('mode1', true);
@@ -1198,7 +1194,8 @@ const App = {
         title: '¡Incorrecto! Revisa la forma exigida',
         message: `Tu respuesta: "${userAnswers.join(' / ') || '—'}"`,
         rule: ex.rule,
-        expectedText: `Respuesta correcta: ${expectedAnswers}`
+        expectedText: `Respuesta correcta: ${expectedAnswers}`,
+        category: mode1Category
       });
       StorageManager.recordResult('mode1', false);
       StorageManager.addError({
@@ -1233,6 +1230,8 @@ const App = {
       textarea.classList.add(result.isValid ? 'correct' : 'incorrect');
     }
 
+    const mode2Category = ex.category || 'Rephrasing';
+
     if (result.isValid) {
       SoundEffects.playCorrect();
       this.showFeedback({
@@ -1240,7 +1239,8 @@ const App = {
         title: result.isPartial ? '¡Casi perfecta! Válida' : '¡Correcto! Transformación impecable',
         message: result.feedback,
         rule: ex.rule,
-        expectedText: `Solución oficial: "${ex.target}"`
+        expectedText: `Solución oficial: "${ex.target}"`,
+        category: mode2Category
       });
       StorageManager.recordResult('mode2', true);
 
@@ -1255,7 +1255,8 @@ const App = {
         title: '¡Incorrecto! Transformación no coincidente',
         message: result.feedback,
         rule: ex.rule,
-        expectedText: `Solución correcta: "${ex.target}"`
+        expectedText: `Solución correcta: "${ex.target}"`,
+        category: mode2Category
       });
       StorageManager.recordResult('mode2', false);
       StorageManager.addError({
@@ -1320,6 +1321,14 @@ const App = {
       .map((g, i) => `#${i + 1}: ${this.formatGapSampleAnswers(g).slice(0, 3).map(a => `"${a}"`).join(' / ')} (${g.infinitive})`)
       .join(' · ');
 
+    const mode3Category = ex.category || (
+      Number(ex.id) <= 10
+        ? 'Travel Vocabulary (Cloze Test)'
+        : Number(ex.id) <= 22
+          ? 'Conditionals & Wishes (Cloze Test)'
+          : 'Narrative Past Tenses & Phrasal Verbs (Cloze Test)'
+    );
+
     if (isAllOrMostCorrect) {
       SoundEffects.playCorrect();
       if (useRelaxed && hasFlexibleMatch) {
@@ -1328,7 +1337,8 @@ const App = {
           title: `¡Puntuación perfecta! ${correctCount}/${totalGaps} válidos (Sin pista)`,
           message: 'Tus respuestas mantienen coherencia con el contexto (corrección flexible activa).',
           rule: ex.generalRule,
-          expectedText: `Ejemplos de respuestas habituales: ${fullExamples}`
+          expectedText: `Ejemplos de respuestas habituales: ${fullExamples}`,
+          category: mode3Category
         });
       } else {
         this.showFeedback({
@@ -1336,7 +1346,8 @@ const App = {
           title: `¡Puntuación perfecta! ${correctCount}/${totalGaps} aciertos`,
           message: 'Has clavado todas las palabras del texto.',
           rule: ex.generalRule,
-          expectedText: `Respuestas: ${fullSolutions}`
+          expectedText: `Respuestas: ${fullSolutions}`,
+          category: mode3Category
         });
       }
       StorageManager.recordResult('mode3', true, 25);
@@ -1356,7 +1367,8 @@ const App = {
         rule: ex.generalRule,
         expectedText: useRelaxed && hasFlexibleMatch
           ? `Correcciones pendientes: ${breakdown.join(' · ')}\nEjemplos habituales: ${fullExamples}`
-          : `Correcciones pendientes: ${breakdown.join(' · ')}`
+          : `Correcciones pendientes: ${breakdown.join(' · ')}`,
+        category: mode3Category
       });
       StorageManager.recordResult('mode3', true, 15);
       if (ex.isFromErrorBank && ex.errorBankId) {
@@ -1369,7 +1381,8 @@ const App = {
         title: `Necesita repaso: ${correctCount}/${totalGaps} aciertos`,
         message: 'Revisa las palabras correctas para cada hueco:',
         rule: ex.generalRule,
-        expectedText: breakdown.join(' · ')
+        expectedText: breakdown.join(' · '),
+        category: mode3Category
       });
       StorageManager.recordResult('mode3', false);
       StorageManager.addError({
@@ -1428,6 +1441,7 @@ const App = {
     });
 
     const detailedExplanation = GeminiClient.buildMode4DetailedExplanation(ex, selectedText, isCorrect);
+    const mode4Category = ex.category || 'Test Teórico';
 
     if (isCorrect) {
       SoundEffects.playCorrect();
@@ -1436,7 +1450,8 @@ const App = {
         title: `¡Correcto! "${correctAns}"`,
         message: 'Has elegido la opción exacta.',
         rule: detailedExplanation,
-        expectedText: null
+        expectedText: null,
+        category: mode4Category
       });
       StorageManager.recordResult('mode4', true);
       if (ex.isFromErrorBank && ex.errorBankId) {
@@ -1450,7 +1465,8 @@ const App = {
         title: '¡Incorrecto! Fíjate en la explicación',
         message: `Tu respuesta: "${selectedText || '—'}"`,
         rule: detailedExplanation,
-        expectedText: `Respuesta correcta (${letterPrefix}"${correctAns}")`
+        expectedText: `Respuesta correcta (${letterPrefix}"${correctAns}")`,
+        category: mode4Category
       });
       StorageManager.recordResult('mode4', false);
       StorageManager.addError({
@@ -1517,6 +1533,7 @@ const App = {
       const modelsText = ex.model_answers
         .map((ans, idx) => `Modelo ${idx + 1}: "${ans}"`)
         .join('\n');
+      const mode5UpgradingCategory = `${ex.essay_type} · Sentence Upgrading`;
 
       if (result.isValid) {
         SoundEffects.playCorrect();
@@ -1528,7 +1545,8 @@ const App = {
           message: result.feedback,
           rule: ex.explanation,
           expectedText: `Versiones modelo de examen:\n${modelsText}`,
-          geminiPrompt
+          geminiPrompt,
+          category: mode5UpgradingCategory
         });
         StorageManager.recordResult('mode5', true, result.isPartial ? 10 : 15);
         if (ex.isFromErrorBank && ex.errorBankId) {
@@ -1542,7 +1560,8 @@ const App = {
           message: result.feedback,
           rule: ex.explanation,
           expectedText: `Versiones modelo de examen:\n${modelsText}`,
-          geminiPrompt
+          geminiPrompt,
+          category: mode5UpgradingCategory
         });
         StorageManager.recordResult('mode5', false);
         StorageManager.addError({
@@ -1587,6 +1606,7 @@ const App = {
       .join(' ');
     const studentWordCount = GeminiClient.countWords(studentParagraph);
     const geminiPrompt = this.buildMode5GeminiPrompt(ex, studentParagraph, studentWordCount);
+    const mode5BuilderCategory = `${ex.essay_type} · ${ex.paragraph_role}`;
 
     if (isAllCorrect) {
       SoundEffects.playCorrect();
@@ -1596,7 +1616,8 @@ const App = {
         message: 'Has enlazado todas las ideas con cohesión y coherencia lógica.',
         rule: ex.explanation,
         expectedText: `Párrafo completo:\n${orderedParagraph}`,
-        geminiPrompt
+        geminiPrompt,
+        category: mode5BuilderCategory
       });
       StorageManager.recordResult('mode5', true, 15);
       if (ex.isFromErrorBank && ex.errorBankId) {
@@ -1610,7 +1631,8 @@ const App = {
         message: 'Fíjate en las tarjetas marcadas en rojo y revisa los conectores de transición:',
         rule: ex.explanation,
         expectedText: `Orden correcto del párrafo:\n${orderedParagraph}`,
-        geminiPrompt
+        geminiPrompt,
+        category: mode5BuilderCategory
       });
       StorageManager.recordResult('mode5', false);
       StorageManager.addError({
@@ -1643,12 +1665,14 @@ const App = {
   // ==========================================
   // PANEL DE FEEDBACK DUOLINGO STYLE (TEXTO EXPLICATIVO INFERIOR)
   // ==========================================
-  showFeedback({ type, title, message, rule, expectedText, geminiPrompt = null }) {
+  showFeedback({ type, title, message, rule, expectedText, geminiPrompt = null, category = null }) {
     const sheet = document.getElementById('feedback-sheet');
     const titleEl = document.getElementById('feedback-title');
     const msgEl = document.getElementById('feedback-message');
     const ruleContainer = document.getElementById('feedback-rule-container');
     const ruleEl = document.getElementById('feedback-rule-text');
+    const categoryRow = document.getElementById('feedback-category-row');
+    const categoryBadge = document.getElementById('feedback-category-badge');
     const expectedEl = document.getElementById('feedback-expected');
     const iconContainer = document.getElementById('feedback-icon-container');
     const geminiActions = document.getElementById('feedback-gemini-actions');
@@ -1699,9 +1723,19 @@ const App = {
       expectedEl.classList.add('hidden');
     }
 
-    if (rule) {
+    if (categoryRow && categoryBadge) {
+      if (category) {
+        categoryBadge.textContent = `🏷️ ${category}`;
+        categoryRow.classList.remove('hidden');
+      } else {
+        categoryBadge.textContent = '';
+        categoryRow.classList.add('hidden');
+      }
+    }
+
+    if (rule || category) {
       ruleContainer.classList.remove('hidden');
-      ruleEl.textContent = rule;
+      ruleEl.textContent = rule || '';
     } else {
       ruleContainer.classList.add('hidden');
     }
@@ -1729,6 +1763,9 @@ const App = {
       sheet.classList.add('hidden');
       sheet.classList.remove('animate-slide-up');
     }
+    document.getElementById('feedback-category-row')?.classList.add('hidden');
+    const categoryBadge = document.getElementById('feedback-category-badge');
+    if (categoryBadge) categoryBadge.textContent = '';
     document.getElementById('feedback-gemini-actions')?.classList.add('hidden');
     document.getElementById('gemini-send-status')?.classList.add('hidden');
     document.getElementById('gemini-fallback-box')?.classList.add('hidden');
