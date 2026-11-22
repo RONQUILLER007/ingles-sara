@@ -1,0 +1,1200 @@
+/* Estilos personalizados y componentes táctiles estilo Duolingo */
+
+:root {
+  --duo-green: #58cc02;
+  --duo-green-shadow: #46a302;
+  --duo-blue: #1cb0f6;
+  --duo-blue-shadow: #1899d6;
+  --duo-orange: #ff9600;
+  --duo-orange-shadow: #cc7700;
+  --duo-red: #ff4b4b;
+  --duo-red-shadow: #d12c2c;
+  --duo-purple: #ce82ff;
+  --duo-purple-shadow: #a54bd9;
+  --duo-gray: #e5e7eb;
+  --duo-gray-shadow: #d1d5db;
+
+  /* Variables nativas de tema (Claro por defecto) */
+  --bg-main: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-subtle: #f8fafc;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --border-bottom-color: #cbd5e1;
+  --input-bg: #f8fafc;
+  --input-focus-bg: #ffffff;
+  --input-text: #1e293b;
+  --input-border: #cbd5e1;
+}
+
+body.dark-mode,
+[data-theme="dark"] {
+  --bg-main: #0f172a;
+  --bg-card: #1e293b;
+  --bg-subtle: #0f172a;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --border-color: #334155;
+  --border-bottom-color: #0f172a;
+  --input-bg: #0f172a;
+  --input-focus-bg: #0f172a;
+  --input-text: #f8fafc;
+  --input-border: #475569;
+}
+
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  overscroll-behavior-y: contain;
+}
+
+header,
+button,
+.option-card,
+.builder-card,
+#card-mode-1,
+#card-mode-2,
+#card-mode-3,
+#card-mode-4,
+#card-mode-5,
+#card-mode-review,
+#settings-modal > div {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease;
+}
+
+/* Microinteracciones táctiles de tarjetas de modo y cabecera */
+#card-mode-1:hover,
+#card-mode-2:hover,
+#card-mode-3:hover,
+#card-mode-4:hover,
+#card-mode-5:hover,
+#card-mode-review:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px -8px rgba(15, 23, 42, 0.14);
+}
+
+#card-mode-1:active,
+#card-mode-2:active,
+#card-mode-3:active,
+#card-mode-4:active,
+#card-mode-5:active,
+#card-mode-review:active {
+  transform: scale(0.97) !important;
+}
+
+#btn-open-error-bank:hover,
+#btn-dark-mode-toggle:hover,
+#btn-open-settings:hover {
+  transform: translateY(-1px);
+}
+
+#btn-open-error-bank:active,
+#btn-dark-mode-toggle:active,
+#btn-open-settings:active {
+  transform: scale(0.97);
+}
+
+/* 3D Tactile Buttons estilo Duolingo */
+.btn-duo {
+  position: relative;
+  transition: transform 0.14s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  user-select: none;
+  cursor: pointer;
+}
+
+.btn-duo:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px -6px rgba(15, 23, 42, 0.18);
+}
+
+.btn-duo:active:not(:disabled) {
+  transform: translateY(3px) scale(0.97);
+  border-bottom-width: 0px !important;
+  margin-top: 4px;
+}
+
+.btn-duo-green {
+  background-color: var(--duo-green);
+  border-bottom: 5px solid var(--duo-green-shadow);
+  color: #ffffff;
+}
+.btn-duo-green:hover:not(:disabled) {
+  background-color: #61e002;
+}
+
+.btn-duo-blue {
+  background-color: var(--duo-blue);
+  border-bottom: 5px solid var(--duo-blue-shadow);
+  color: #ffffff;
+}
+.btn-duo-blue:hover:not(:disabled) {
+  background-color: #2ec1ff;
+}
+
+.btn-duo-purple {
+  background-color: var(--duo-purple);
+  border-bottom: 5px solid var(--duo-purple-shadow);
+  color: #ffffff;
+}
+
+.btn-duo-orange {
+  background-color: var(--duo-orange);
+  border-bottom: 5px solid var(--duo-orange-shadow);
+  color: #ffffff;
+}
+
+.btn-duo-white {
+  background-color: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-bottom: 5px solid var(--border-bottom-color);
+  color: var(--text-primary);
+}
+.btn-duo-white:hover:not(:disabled) {
+  background-color: var(--bg-subtle);
+}
+
+.btn-duo:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+/* Opciones de test táctil */
+.option-card {
+  transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.2s ease;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  border-bottom: 4px solid var(--border-bottom-color);
+  user-select: none;
+}
+.option-card:hover {
+  background-color: var(--bg-subtle);
+  border-color: var(--input-border);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -6px rgba(15, 23, 42, 0.1);
+}
+.option-card:active {
+  transform: scale(0.97);
+}
+.option-card.selected {
+  background-color: #eff6ff;
+  border-color: #3b82f6;
+  border-bottom: 4px solid #1d4ed8;
+  color: #1e40af;
+}
+.option-card.correct {
+  background-color: #f0fdf4 !important;
+  border-color: #22c55e !important;
+  border-bottom: 4px solid #15803d !important;
+  color: #14532d !important;
+}
+.option-card.incorrect {
+  background-color: #fef2f2 !important;
+  border-color: #ef4444 !important;
+  border-bottom: 4px solid #b91c1c !important;
+  color: #7f1d1d !important;
+}
+
+/* Contenedor de frases con huecos (Modo 1 y Modo 3) sin solapamiento */
+.sentence-container {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 5px;
+  line-height: 2.2;
+  width: 100%;
+}
+
+.gap-inline-wrapper {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+  vertical-align: baseline;
+  max-width: 100%;
+}
+
+.gap-hint-badge {
+  display: inline-block;
+  vertical-align: baseline;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* Inputs de huecos */
+.gap-input {
+  transition: all 0.2s ease, background-color 0.3s ease, color 0.3s ease;
+  width: 155px;
+  min-width: 110px;
+  max-width: 100%;
+  display: inline-block;
+  vertical-align: baseline;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.35;
+  text-align: center;
+  border-radius: 0.65rem;
+  padding: 0.2rem 0.5rem;
+  margin: 2px 0;
+  border: 2px solid var(--input-border);
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  outline: none;
+}
+@media (min-width: 640px) {
+  .gap-input {
+    width: 185px;
+    font-size: 1.05rem;
+  }
+}
+.gap-input:focus {
+  border-color: var(--duo-blue);
+  background-color: var(--input-focus-bg);
+  box-shadow: 0 0 0 3px rgba(28, 176, 246, 0.2);
+}
+.gap-input.correct {
+  border-color: #22c55e;
+  background-color: #f0fdf4;
+  color: #15803d;
+}
+.gap-input.incorrect {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+  color: #b91c1c;
+}
+
+/* Barra de progreso de Duolingo con brillo */
+.duo-progress-bar {
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+.duo-progress-fill {
+  background-color: var(--duo-green);
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  will-change: width;
+}
+.duo-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 10px;
+  right: 10px;
+  height: 35%;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 9999px;
+}
+
+/* Animaciones ligeras a 60 FPS */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-slide {
+  animation: fadeSlideIn 0.24s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Entradas escalonadas en menú principal y opciones A-D del Modo 4 */
+#home-screen.animate-stagger #card-mode-1 { animation: fadeSlideIn 0.26s cubic-bezier(0.22, 1, 0.36, 1) 0ms both; }
+#home-screen.animate-stagger #card-mode-2 { animation: fadeSlideIn 0.26s cubic-bezier(0.22, 1, 0.36, 1) 40ms both; }
+#home-screen.animate-stagger #card-mode-3 { animation: fadeSlideIn 0.26s cubic-bezier(0.22, 1, 0.36, 1) 80ms both; }
+#home-screen.animate-stagger #card-mode-4 { animation: fadeSlideIn 0.26s cubic-bezier(0.22, 1, 0.36, 1) 120ms both; }
+#home-screen.animate-stagger #card-mode-5 { animation: fadeSlideIn 0.26s cubic-bezier(0.22, 1, 0.36, 1) 160ms both; }
+#home-screen.animate-stagger #card-mode-review { animation: fadeSlideIn 0.26s cubic-bezier(0.22, 1, 0.36, 1) 200ms both; }
+
+#options-group .option-card:not(.correct):not(.incorrect):nth-child(1) { animation: fadeSlideIn 0.24s cubic-bezier(0.22, 1, 0.36, 1) 0ms both; }
+#options-group .option-card:not(.correct):not(.incorrect):nth-child(2) { animation: fadeSlideIn 0.24s cubic-bezier(0.22, 1, 0.36, 1) 45ms both; }
+#options-group .option-card:not(.correct):not(.incorrect):nth-child(3) { animation: fadeSlideIn 0.24s cubic-bezier(0.22, 1, 0.36, 1) 90ms both; }
+#options-group .option-card:not(.correct):not(.incorrect):nth-child(4) { animation: fadeSlideIn 0.24s cubic-bezier(0.22, 1, 0.36, 1) 135ms both; }
+
+@keyframes slideUp {
+  from {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.26s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes pulseSuccess {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.45);
+  }
+  45% {
+    transform: scale(1.015);
+    box-shadow: 0 0 0 8px rgba(34, 197, 94, 0.14);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+@keyframes shakeError {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.85); opacity: 0; }
+  70% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-pop {
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popStat {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.18); filter: brightness(1.12); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+.animate-pop-stat {
+  animation: popStat 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Estados de acierto y error con animación */
+#rephrasing-input.correct {
+  border-color: #22c55e !important;
+  background-color: #f0fdf4 !important;
+  color: #15803d !important;
+}
+
+#rephrasing-input.incorrect {
+  border-color: #ef4444 !important;
+  background-color: #fef2f2 !important;
+  color: #b91c1c !important;
+}
+
+.gap-input.correct,
+#rephrasing-input.correct,
+#options-group .option-card.correct,
+.option-card.correct,
+#writing-upgrading-input.correct,
+.builder-card.correct {
+  animation: pulseSuccess 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.gap-input.incorrect,
+#rephrasing-input.incorrect,
+#options-group .option-card.incorrect,
+.option-card.incorrect,
+#writing-upgrading-input.incorrect,
+.builder-card.incorrect {
+  animation: shakeError 0.32s ease-in-out both;
+}
+
+/* Estilos de tarjetas y texto */
+.reading-text {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 5px;
+  line-height: 2.3;
+  font-size: 1.1rem;
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .reading-text {
+    line-height: 2.4;
+    font-size: 1.2rem;
+  }
+}
+
+/* Panel de retroalimentación inferior ("Texto de debajo") */
+#feedback-sheet {
+  position: relative;
+  z-index: 10;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+}
+
+#feedback-rule-container {
+  background-color: rgba(255, 255, 255, 0.92);
+  border: 1.5px solid rgba(148, 163, 184, 0.45);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #1e293b;
+}
+
+#feedback-expected {
+  font-size: 0.98rem;
+  line-height: 1.45;
+  background-color: rgba(255, 255, 255, 0.75);
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.75rem;
+  display: inline-block;
+  margin-top: 0.35rem;
+  white-space: pre-line;
+}
+
+/* Scrollbar discreto */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* ============================================================ */
+/* MODO OSCURO COMPLETO (body.dark-mode / [data-theme="dark"])  */
+/* ============================================================ */
+body.dark-mode,
+body[data-theme="dark"] {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+/* Encabezado, tarjetas, modales y contenedores principales */
+body.dark-mode header,
+body.dark-mode .bg-white,
+body.dark-mode #settings-modal > div {
+  background-color: #1e293b !important;
+  color: #f8fafc;
+}
+
+body.dark-mode .bg-slate-50 {
+  background-color: #0f172a !important;
+}
+
+body.dark-mode .bg-slate-100:not(body) {
+  background-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+body.dark-mode .bg-slate-200 {
+  background-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+/* Textos primarios y secundarios de alto contraste */
+body.dark-mode .text-slate-900,
+body.dark-mode .text-slate-800,
+body.dark-mode .text-slate-700 {
+  color: #f8fafc !important;
+}
+
+body.dark-mode .text-slate-600,
+body.dark-mode .text-slate-500,
+body.dark-mode .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+body.dark-mode .text-indigo-900 {
+  color: #c7d2fe !important;
+}
+
+/* Bordes y separadores (#334155) */
+body.dark-mode .border-slate-100,
+body.dark-mode .border-slate-200,
+body.dark-mode .border-slate-300 {
+  border-color: #334155 !important;
+}
+
+/* Mantener bordes inferiores de color en las tarjetas de los 5 modos */
+body.dark-mode #card-mode-1 {
+  border-bottom-color: #3b82f6 !important;
+}
+body.dark-mode #card-mode-2 {
+  border-bottom-color: #f59e0b !important;
+}
+body.dark-mode #card-mode-3 {
+  border-bottom-color: #6366f1 !important;
+}
+body.dark-mode #card-mode-4 {
+  border-bottom-color: #a855f7 !important;
+}
+body.dark-mode #card-mode-5 {
+  border-bottom-color: #14b8a6 !important;
+}
+
+/* Tarjeta de Banco de Errores en el Home y contenedores especiales */
+body.dark-mode #card-mode-review {
+  background: linear-gradient(to right, #1e293b, #271722) !important;
+  border-color: #881337 !important;
+}
+
+body.dark-mode .bg-purple-50\/60 {
+  background-color: #1e293b !important;
+  border-color: #4c1d95 !important;
+  color: #f8fafc !important;
+}
+
+body.dark-mode .bg-indigo-50 {
+  background-color: rgba(49, 46, 129, 0.35) !important;
+  border-color: #4338ca !important;
+  color: #c7d2fe !important;
+}
+
+/* Píldoras del header en Modo Oscuro */
+body.dark-mode header .bg-amber-50 {
+  background-color: rgba(120, 53, 15, 0.35) !important;
+  border-color: #b45309 !important;
+}
+body.dark-mode header .bg-blue-50 {
+  background-color: rgba(30, 58, 138, 0.35) !important;
+  border-color: #1d4ed8 !important;
+}
+body.dark-mode header .bg-rose-50 {
+  background-color: rgba(136, 19, 55, 0.35) !important;
+  border-color: #be123c !important;
+}
+
+/* Banco de Errores, Modal de Ajustes, píldoras y badges (.bg-*-100) en Modo Oscuro */
+body.dark-mode .bg-rose-50 {
+  background-color: rgba(136, 19, 55, 0.35) !important;
+  border-color: #be123c !important;
+  color: #fecdd3 !important;
+}
+body.dark-mode .border-rose-200 {
+  border-color: #be123c !important;
+}
+body.dark-mode .text-rose-900,
+body.dark-mode .text-rose-800 {
+  color: #fecdd3 !important;
+}
+body.dark-mode .text-rose-600,
+body.dark-mode .text-rose-500 {
+  color: #fda4af !important;
+}
+
+body.dark-mode .bg-emerald-50 {
+  background-color: rgba(6, 78, 59, 0.45) !important;
+  border-color: #10b981 !important;
+  color: #d1fae5 !important;
+}
+body.dark-mode .border-emerald-200 {
+  border-color: #10b981 !important;
+}
+body.dark-mode .text-emerald-900,
+body.dark-mode .text-emerald-800 {
+  color: #d1fae5 !important;
+}
+body.dark-mode .text-emerald-700,
+body.dark-mode .text-emerald-600 {
+  color: #6ee7b7 !important;
+}
+
+body.dark-mode .bg-blue-50 {
+  background-color: rgba(30, 58, 138, 0.45) !important;
+  border-color: #2563eb !important;
+  color: #dbeafe !important;
+}
+body.dark-mode .bg-blue-50:hover {
+  background-color: rgba(30, 64, 175, 0.65) !important;
+}
+body.dark-mode .border-blue-200 {
+  border-color: #2563eb !important;
+}
+body.dark-mode .text-blue-700 {
+  color: #93c5fd !important;
+}
+
+body.dark-mode .bg-purple-50 {
+  background-color: rgba(88, 28, 135, 0.45) !important;
+  border-color: #7e22ce !important;
+  color: #f3e8ff !important;
+}
+body.dark-mode .bg-purple-50:hover {
+  background-color: rgba(107, 33, 168, 0.65) !important;
+}
+body.dark-mode .border-purple-200 {
+  border-color: #7e22ce !important;
+}
+body.dark-mode .text-purple-700 {
+  color: #d8b4fe !important;
+}
+
+/* Badges .bg-*-100 en tarjetas, modos y Banco de Errores */
+body.dark-mode .bg-blue-100 {
+  background-color: rgba(30, 58, 138, 0.55) !important;
+  color: #93c5fd !important;
+}
+body.dark-mode .bg-amber-100 {
+  background-color: rgba(120, 53, 15, 0.55) !important;
+  color: #fcd34d !important;
+}
+body.dark-mode .border-amber-300 {
+  border-color: #d97706 !important;
+}
+body.dark-mode .text-amber-800 {
+  color: #fcd34d !important;
+}
+body.dark-mode .bg-indigo-100 {
+  background-color: rgba(49, 46, 129, 0.55) !important;
+  color: #a5b4fc !important;
+}
+body.dark-mode .text-indigo-700 {
+  color: #a5b4fc !important;
+}
+body.dark-mode .bg-purple-100 {
+  background-color: rgba(88, 28, 135, 0.55) !important;
+  color: #d8b4fe !important;
+}
+body.dark-mode .bg-emerald-100 {
+  background-color: rgba(6, 78, 59, 0.55) !important;
+  color: #6ee7b7 !important;
+}
+body.dark-mode .bg-rose-100 {
+  background-color: rgba(136, 19, 55, 0.55) !important;
+  color: #fda4af !important;
+}
+body.dark-mode .bg-orange-100 {
+  background-color: rgba(124, 45, 18, 0.55) !important;
+  color: #fdba74 !important;
+}
+
+/* Inputs y huecos de respuesta (.gap-input y #rephrasing-input) */
+body.dark-mode .gap-input,
+body.dark-mode #rephrasing-input {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+  border-color: #475569 !important;
+}
+
+body.dark-mode .gap-input::placeholder,
+body.dark-mode #rephrasing-input::placeholder {
+  color: #64748b !important;
+}
+
+body.dark-mode .gap-input:focus,
+body.dark-mode #rephrasing-input:focus {
+  border-color: var(--duo-blue) !important;
+  background-color: #0f172a !important;
+  box-shadow: 0 0 0 3px rgba(28, 176, 246, 0.28) !important;
+}
+
+/* Aciertos (#22c55e) y errores (#ef4444) en inputs de Modo Oscuro */
+body.dark-mode .gap-input.correct {
+  background-color: rgba(20, 83, 45, 0.45) !important;
+  border-color: #22c55e !important;
+  color: #4ade80 !important;
+}
+
+body.dark-mode .gap-input.incorrect {
+  background-color: rgba(127, 29, 29, 0.45) !important;
+  border-color: #ef4444 !important;
+  color: #f87171 !important;
+}
+
+/* Botones de opciones (Modo 4) en Modo Oscuro */
+body.dark-mode .option-card {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-color: #334155 !important;
+  border-bottom-color: #0f172a !important;
+}
+
+body.dark-mode .option-card .option-badge {
+  background-color: #0f172a !important;
+  color: #cbd5e1 !important;
+  border-color: #475569 !important;
+}
+
+body.dark-mode .option-card:hover {
+  background-color: #26354d !important;
+  border-color: #475569 !important;
+}
+
+body.dark-mode .option-card.selected {
+  background-color: #1e3a8a !important;
+  border-color: #3b82f6 !important;
+  border-bottom-color: #1d4ed8 !important;
+  color: #f8fafc !important;
+}
+
+body.dark-mode .option-card.selected .option-badge {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  border-color: #60a5fa !important;
+}
+
+body.dark-mode .option-card.correct {
+  background-color: rgba(20, 83, 45, 0.55) !important;
+  border-color: #22c55e !important;
+  border-bottom-color: #15803d !important;
+  color: #dcfce7 !important;
+}
+
+body.dark-mode .option-card.correct .option-badge {
+  background-color: #16a34a !important;
+  color: #ffffff !important;
+  border-color: #22c55e !important;
+}
+
+body.dark-mode .option-card.incorrect {
+  background-color: rgba(127, 29, 29, 0.55) !important;
+  border-color: #ef4444 !important;
+  border-bottom-color: #b91c1c !important;
+  color: #fee2e2 !important;
+}
+
+body.dark-mode .option-card.incorrect .option-badge {
+  background-color: #dc2626 !important;
+  color: #ffffff !important;
+  border-color: #ef4444 !important;
+}
+
+/* Botones secundarios y barra de progreso en Modo Oscuro */
+body.dark-mode .btn-duo-white {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  border-bottom-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+body.dark-mode .btn-duo-white:hover:not(:disabled) {
+  background-color: #334155 !important;
+}
+
+body.dark-mode .duo-progress-bar {
+  background-color: #334155;
+}
+
+/* Panel de retroalimentación inferior (#feedback-sheet) en Modo Oscuro */
+body.dark-mode #feedback-sheet.bg-emerald-50 {
+  background-color: #064e3b !important;
+  border-color: #22c55e !important;
+}
+body.dark-mode #feedback-sheet.bg-amber-50 {
+  background-color: #451a03 !important;
+  border-color: #f59e0b !important;
+}
+body.dark-mode #feedback-sheet.bg-rose-50 {
+  background-color: #4c0519 !important;
+  border-color: #ef4444 !important;
+}
+
+body.dark-mode #feedback-sheet #feedback-title {
+  color: #f8fafc !important;
+}
+
+body.dark-mode #feedback-sheet #feedback-message {
+  color: #e2e8f0 !important;
+}
+
+body.dark-mode #feedback-rule-container {
+  background-color: #0f172a !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+body.dark-mode #feedback-expected {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+  border: 1px solid #334155;
+}
+
+/* Scrollbar en Modo Oscuro */
+body.dark-mode ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+/* ============================================================ */
+/* MODO 5: WRITING LAB (SENTENCE UPGRADING & PARAGRAPH BUILDER) */
+/* ============================================================ */
+#writing-upgrading-input {
+  transition: border-color 0.2s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.2s ease;
+}
+
+#writing-upgrading-input.correct {
+  border-color: #22c55e !important;
+  background-color: #f0fdf4 !important;
+  color: #15803d !important;
+}
+
+#writing-upgrading-input.incorrect {
+  border-color: #ef4444 !important;
+  background-color: #fef2f2 !important;
+  color: #b91c1c !important;
+}
+
+.word-counter-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.word-counter-short {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+}
+
+.word-counter-ok {
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
+}
+
+.connector-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.75rem;
+  border-radius: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  background-color: #f0fdfa;
+  color: #0f766e;
+  border: 1.5px solid #5eead4;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s ease, background-color 0.2s ease;
+}
+
+.connector-chip:hover {
+  background-color: #ccfbf1;
+}
+
+.connector-chip:active {
+  transform: scale(0.96);
+}
+
+.builder-card {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  border-bottom: 4px solid var(--border-bottom-color);
+  transition: all 0.2s ease;
+}
+
+.builder-card.correct {
+  background-color: #f0fdf4 !important;
+  border-color: #22c55e !important;
+  border-bottom-color: #15803d !important;
+  color: #14532d !important;
+}
+
+.builder-card.incorrect {
+  background-color: #fef2f2 !important;
+  border-color: #ef4444 !important;
+  border-bottom-color: #b91c1c !important;
+  color: #7f1d1d !important;
+}
+
+.builder-pos-badge {
+  background-color: #ccfbf1;
+  color: #0f766e;
+  border: 1px solid #5eead4;
+}
+
+.builder-card.correct .builder-pos-badge {
+  background-color: #22c55e;
+  color: #ffffff;
+  border-color: #16a34a;
+}
+
+.builder-card.incorrect .builder-pos-badge {
+  background-color: #ef4444;
+  color: #ffffff;
+  border-color: #dc2626;
+}
+
+.builder-move-btn {
+  background-color: #f1f5f9;
+  color: #334155;
+  border: 1.5px solid #cbd5e1;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.builder-move-btn:hover:not(:disabled) {
+  background-color: #e2e8f0;
+}
+
+.builder-move-btn:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.builder-move-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Modo Oscuro para Modo 5 Writing Lab */
+body.dark-mode .bg-teal-50 {
+  background-color: rgba(19, 78, 74, 0.35) !important;
+  border-color: #0f766e !important;
+  color: #99f6e4 !important;
+}
+
+body.dark-mode .bg-teal-100 {
+  background-color: rgba(17, 94, 89, 0.55) !important;
+  color: #5eead4 !important;
+}
+
+body.dark-mode #writing-upgrading-input {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+  border-color: #475569 !important;
+}
+
+body.dark-mode #writing-upgrading-input::placeholder {
+  color: #64748b !important;
+}
+
+body.dark-mode #writing-upgrading-input:focus {
+  border-color: #14b8a6 !important;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.28) !important;
+}
+
+body.dark-mode #writing-upgrading-input.correct {
+  background-color: rgba(20, 83, 45, 0.45) !important;
+  border-color: #22c55e !important;
+  color: #4ade80 !important;
+}
+
+body.dark-mode #writing-upgrading-input.incorrect {
+  background-color: rgba(127, 29, 29, 0.45) !important;
+  border-color: #ef4444 !important;
+  color: #f87171 !important;
+}
+
+body.dark-mode .word-counter-short {
+  background-color: rgba(120, 53, 15, 0.45);
+  color: #fcd34d;
+  border-color: #b45309;
+}
+
+body.dark-mode .word-counter-ok {
+  background-color: rgba(20, 83, 45, 0.5);
+  color: #4ade80;
+  border-color: #22c55e;
+}
+
+body.dark-mode .connector-chip {
+  background-color: rgba(19, 78, 74, 0.55);
+  color: #5eead4;
+  border-color: #0d9488;
+}
+
+body.dark-mode .connector-chip:hover {
+  background-color: rgba(17, 94, 89, 0.8);
+}
+
+body.dark-mode .builder-card {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-color: #334155 !important;
+  border-bottom-color: #0f172a !important;
+}
+
+body.dark-mode .builder-card.correct {
+  background-color: rgba(20, 83, 45, 0.55) !important;
+  border-color: #22c55e !important;
+  border-bottom-color: #15803d !important;
+  color: #dcfce7 !important;
+}
+
+body.dark-mode .builder-card.incorrect {
+  background-color: rgba(127, 29, 29, 0.55) !important;
+  border-color: #ef4444 !important;
+  border-bottom-color: #b91c1c !important;
+  color: #fee2e2 !important;
+}
+
+body.dark-mode .builder-pos-badge {
+  background-color: #0f172a;
+  color: #5eead4;
+  border-color: #0d9488;
+}
+
+body.dark-mode .builder-move-btn {
+  background-color: #0f172a;
+  color: #f8fafc;
+  border-color: #475569;
+}
+
+body.dark-mode .builder-move-btn:hover:not(:disabled) {
+  background-color: #334155;
+}
+
+/* Botón y panel de apoyo "Enviar a Gemini" (Modo 5: Writing Lab) */
+.btn-gemini-send {
+  background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+  border-bottom: 5px solid #1e40af;
+  color: #ffffff;
+  transition: transform 0.1s ease, filter 0.2s ease, background-color 0.3s ease;
+}
+
+.btn-gemini-send:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.gemini-status-ok {
+  background-color: #eff6ff;
+  border: 1.5px solid #93c5fd;
+  color: #1e3a8a;
+}
+
+.gemini-status-warn {
+  background-color: #fffbeb;
+  border: 1.5px solid #fcd34d;
+  color: #92400e;
+}
+
+#gemini-fallback-box {
+  background-color: var(--bg-card);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+#gemini-fallback-textarea {
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  border-color: var(--input-border);
+}
+
+#btn-select-fallback-gemini {
+  color: #2563eb;
+}
+
+body.dark-mode .btn-gemini-send {
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  border-bottom-color: #1d4ed8;
+  color: #ffffff;
+}
+
+body.dark-mode .gemini-status-ok {
+  background-color: rgba(30, 58, 138, 0.45);
+  border-color: #3b82f6;
+  color: #dbeafe;
+}
+
+body.dark-mode .gemini-status-warn {
+  background-color: rgba(120, 53, 15, 0.45);
+  border-color: #f59e0b;
+  color: #fef3c7;
+}
+
+body.dark-mode #gemini-fallback-box {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+body.dark-mode #gemini-fallback-textarea {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+  border-color: #475569 !important;
+}
+
+body.dark-mode #btn-select-fallback-gemini {
+  color: #60a5fa;
+}
+
+/* Sombras, brillos y estado Rephrasing en Modo Oscuro */
+body.dark-mode #rephrasing-input.correct {
+  background-color: rgba(20, 83, 45, 0.45) !important;
+  border-color: #22c55e !important;
+  color: #4ade80 !important;
+}
+
+body.dark-mode #rephrasing-input.incorrect {
+  background-color: rgba(127, 29, 29, 0.45) !important;
+  border-color: #ef4444 !important;
+  color: #f87171 !important;
+}
+
+body.dark-mode #card-mode-1:hover,
+body.dark-mode #card-mode-2:hover,
+body.dark-mode #card-mode-3:hover,
+body.dark-mode #card-mode-4:hover,
+body.dark-mode #card-mode-5:hover,
+body.dark-mode #card-mode-review:hover,
+body.dark-mode .option-card:hover {
+  box-shadow: 0 12px 26px -8px rgba(0, 0, 0, 0.55);
+}
+
+body.dark-mode .btn-duo:hover:not(:disabled) {
+  box-shadow: 0 10px 22px -6px rgba(0, 0, 0, 0.55);
+}
+
+body.dark-mode #feedback-sheet {
+  box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.5);
+}
+
+/* Accesibilidad: respetar prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  #card-mode-1:hover,
+  #card-mode-2:hover,
+  #card-mode-3:hover,
+  #card-mode-4:hover,
+  #card-mode-5:hover,
+  #card-mode-review:hover,
+  .option-card:hover,
+  .btn-duo:hover:not(:disabled),
+  #btn-open-error-bank:hover,
+  #btn-dark-mode-toggle:hover,
+  #btn-open-settings:hover,
+  #card-mode-1:active,
+  #card-mode-2:active,
+  #card-mode-3:active,
+  #card-mode-4:active,
+  #card-mode-5:active,
+  #card-mode-review:active,
+  .option-card:active,
+  .btn-duo:active:not(:disabled),
+  .connector-chip:active,
+  .builder-move-btn:active:not(:disabled) {
+    transform: none !important;
+  }
+}

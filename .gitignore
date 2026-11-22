@@ -1,0 +1,14 @@
+# Archivos de trabajo pesados y apuntes fuente
+*.pdf
+contexto_examenes.md
+correcciones/
+
+# Bancos JSON fuente (ya integrados en js/exam-bank.js)
+banco_gigante.json
+database_*.json
+
+# Archivos temporales y del sistema operativo
+__pycache__/
+.DS_Store
+Thumbs.db
+desktop.ini
