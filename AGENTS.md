@@ -35,10 +35,16 @@ Este documento unifica las **reglas técnicas/operativas del proyecto** y el **t
    - Cada vez que se modifiquen archivos de la app (`index.html`, `css/`, `js/`, `manifest.json`), incrementar `CACHE_NAME` en `sw.js` y actualizar los query strings `?v=...` en `index.html`.
    - Mantener la raíz del proyecto limpia exclusivamente con: `index.html`, `sw.js`, `manifest.json`, `.gitignore`, `README.md`, `AGENTS.md` y las carpetas `js/`, `css/`, `icons/`. Excluir apuntes PDF, JSON fuente brutos, capturas de corrección y archivos temporales mediante `.gitignore`.
 
-7. **Commit y Push Automático a `RONQUILLER007/ingles-sara` tras Modificaciones:**
+7. **Actualización Automática de `README.md` y Cifras del Banco:**
+   - Antes de publicar cualquier cambio en el proyecto, revisar siempre si las modificaciones afectan a lo documentado en `README.md` (modos de práctica, sesiones fijas de 5 preguntas en modos cortos vs. 1 relato completo en `mode3`, pistas en inglés e interruptor `"Sin pista"`, envío/copiado a Gemini, Modo Oscuro `body.dark-mode`, versión de caché/despliegue o cantidad de ejercicios).
+   - **Cada vez que se añadan o modifiquen ejercicios en `js/exam-bank.js`:** recalcular obligatoriamente el total real y el desglose exacto por modo (`mode1` a `mode5`, además de subtotales relevantes) y actualizar `README.md` (y el punto 2 de `AGENTS.md` si cambia el banco) con esos números exactos antes de hacer `commit` y `push`.
+   - **Excepción:** si la modificación realizada no altera nada de lo descrito en `README.md` o se trata de una auditoría/revisión de solo lectura, **no tocar `README.md`**.
+
+8. **Commit y Push Automático a `RONQUILLER007/ingles-sara` tras Modificaciones:**
    - Siempre que se realicen modificaciones de código, estilos, datos o documentación en el proyecto, ejecutar automáticamente al finalizar (sin preguntar confirmación previa al usuario):
-     1. Revisar `git status` para confirmar que no entra ningún archivo de respaldo, borrador ni elemento no deseado o excluido por `.gitignore`.
-     2. Ejecutar directamente `git add`, `git commit` con un mensaje descriptivo claro y `git push` a la rama activa del repositorio `RONQUILLER007/ingles-sara`, informando del resultado al concluir.
+     1. Completar el punto 7 (`README.md`) cuando corresponda según el alcance del cambio.
+     2. Revisar `git status` para confirmar que no entra ningún archivo de respaldo, borrador ni elemento no deseado o excluido por `.gitignore`.
+     3. Ejecutar directamente `git add`, `git commit` con un mensaje descriptivo claro y `git push` a la rama activa del repositorio `RONQUILLER007/ingles-sara`, informando del resultado al concluir.
    - **Única excepción:** cuando el usuario solicite explícitamente una auditoría o revisión de solo lectura sin modificar archivos.
 
 ---
