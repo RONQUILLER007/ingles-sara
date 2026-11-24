@@ -11,7 +11,7 @@ Optimizada específicamente para uso táctil en su tablet **Xiaomi Pad 8** y esc
 ## 🌟 Características Principales
 
 ### 1. Banco Oficial Offline de 836 Ejercicios
-- **100 % Autónomo y Offline Real:** Funciona sin conexión a internet gracias al Service Worker (`sw.js`, versión `ingles-sara-v22`), que precachea todos los activos locales junto con los recursos externos confiables necesarios (Tailwind CSS CDN y Google Fonts *Nunito*, incluyendo respuestas `opaque`).
+- **100 % Autónomo y Offline Real:** Funciona sin conexión a internet gracias al Service Worker (`sw.js`, versión `ingles-sara-v23`), que precachea todos los activos locales junto con los recursos externos confiables necesarios (Tailwind CSS CDN y Google Fonts *Nunito*, incluyendo respuestas `opaque`).
 - **Distribución exacta de ejercicios por modalidad:**
   - **Modo 1 (Tiempos Verbales, Preposiciones, Condicionales y Deseos):** **260 ejercicios** (**353 huecos**) con 1 y 2 huecos (`{{gap1}}`, `{{gap2}}`), verbos estáticos vs. dinámicos, futuros, pasados, colocaciones de adjetivo + preposición, condicionales e `I wish / If only`. Pistas en **inglés** por defecto junto a cada hueco e interruptor manual **"Sin pista"**.
   - **Modo 2 (Rephrasing de Examen — *Key Word Transformation*):** **321 transformaciones** categorizadas (*So/Such, Too/Enough, Prefer/Would rather, Although/Despite, By the time, Present Perfect, Voz Pasiva, Reported Speech, Condicionales, Deseos `I wish / If only` y Transformación de Tiempos Verbales*).
@@ -41,7 +41,8 @@ Optimizada específicamente para uso táctil en su tablet **Xiaomi Pad 8** y esc
 ---
 
 ### 4. Motor de Validación Léxico-Gramatical Flexible
-- **Normalización avanzada y puntuación:** Tolera diferencias de mayúsculas/minúsculas, apóstrofos rectos o curvos, comas opcionales, inversiones legítimas de cláusulas, `that` opcional, singular `was/were` equivalente y variantes ortográficas **UK / US** (*travelling/traveling*, *cancelled/canceled*, *learned/learnt*, *practise/practice*, *apologised/apologized*, *neighbour/neighbor*, etc.).
+- **Normalización avanzada y puntuación:** Tolera diferencias de mayúsculas/minúsculas, apóstrofos rectos o curvos, comas opcionales, inversiones legítimas de cláusulas, `that` opcional y variantes ortográficas **UK / US** (*travelling/traveling*, *cancelled/canceled*, *learned/learnt*, *practise/practice*, *apologised/apologized*, *neighbour/neighbor*, etc.).
+- **Validación en ámbar ("Medio válido") para `was` / `wasn't` frente a `were` / `weren't`:** En `Second Conditional` e `I wish / If only + Past Simple` en 1ª o 3ª persona del singular, el uso de `was` / `wasn't` en lugar de `were` / `weren't` se marca en **ámbar** (no como error rojo) acompañado de una explicación clara sobre cuándo usar `were` (estándar formal/examen B2-C1) frente a `was` (aceptable en registro informal).
 - **Contracciones ↔ formas plenas con desambiguación contextual:** Expande bidireccionalmente negativas y pronombres distinguiendo `'d + participio` (`had`) frente a `'d + infinitivo` (`would`) y `'s` (`is` vs. `has`), evitando falsos fallos en 2ª/3ª condicional o *I wish*.
 - **Modo 4 evaluado por valor de texto:** La comprobación se realiza contra el texto exacto de `correct_answer`, garantizando precisión independiente del barajado aleatorio.
 
@@ -59,7 +60,7 @@ Optimizada específicamente para uso táctil en su tablet **Xiaomi Pad 8** y esc
 
 ### 1. Publicación automática en GitHub Pages (`RONQUILLER007/ingles-sara`)
 - Repositorio configurado con publicación continua en la rama `main` (`https://ronquiller007.github.io/ingles-sara/`).
-- La caché de la PWA se controla mediante `CACHE_NAME` en `sw.js` (actualmente `ingles-sara-v22`) y query strings `?v=22` en `index.html`. Al publicarse una nueva versión, `sw.js` ejecuta `skipWaiting()` y `clients.claim()` y la aplicación realiza una única recarga automática al detectar `controllerchange` para cargar los cambios al instante.
+- La caché de la PWA se controla mediante `CACHE_NAME` en `sw.js` (actualmente `ingles-sara-v23`) y query strings `?v=23` en `index.html`. Al publicarse una nueva versión, `sw.js` ejecuta `skipWaiting()` y `clients.claim()` y la aplicación realiza una única recarga automática al detectar `controllerchange` para cargar los cambios al instante.
 
 ### 2. Instalar en la Xiaomi Pad 8 (PWA a pantalla completa):
 1. En **Google Chrome** en la tablet, abre la URL de GitHub Pages (`https://ronquiller007.github.io/ingles-sara/`).
@@ -75,9 +76,9 @@ Optimizada específicamente para uso táctil en su tablet **Xiaomi Pad 8** y esc
 ├── .gitignore         # Exclusión de temporales, respaldos y archivos ajenos a la web
 ├── AGENTS.md          # Reglas operativas, flujo Git automático y temario oficial fusionado
 ├── README.md          # Documentación principal y resumen actualizado de la aplicación
-├── index.html         # Interfaz táctil responsive (?v=22 + Google Fonts + Tailwind CDN)
+├── index.html         # Interfaz táctil responsive (?v=23 + Google Fonts + Tailwind CDN)
 ├── manifest.json      # Manifiesto PWA para instalación en tablet y escritorio
-├── sw.js              # Service Worker offline (ingles-sara-v22, locales + CDN/Fonts opaque)
+├── sw.js              # Service Worker offline (ingles-sara-v23, locales + CDN/Fonts opaque)
 ├── css/
 │   └── styles.css     # Estilos Duolingo 3D, Modo Oscuro, interruptor Sin pista y animaciones 60 FPS
 ├── js/

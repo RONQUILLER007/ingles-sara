@@ -914,9 +914,7 @@ const EXAM_BANK = {
       "sentence": "If I {{gap1}} (be) you, I wouldn't sign that contract without reading the small print.",
       "answer": "were",
       "gapAlternatives": [
-        [
-          "was"
-        ]
+        []
       ],
       "category": "Second Conditional"
     },
@@ -944,9 +942,7 @@ const EXAM_BANK = {
       "answer": "weren't",
       "gapAlternatives": [
         [
-          "wasn't",
-          "were not",
-          "was not"
+          "were not"
         ]
       ],
       "category": "Second Conditional"
@@ -1006,9 +1002,7 @@ const EXAM_BANK = {
       "answer": "weren't",
       "gapAlternatives": [
         [
-          "wasn't",
-          "were not",
-          "was not"
+          "were not"
         ]
       ],
       "category": "Second Conditional"
@@ -1223,9 +1217,7 @@ const EXAM_BANK = {
       "sentence": "If he {{gap1}} (be) more organised, he wouldn't have missed yesterday's deadline.",
       "answer": "were",
       "gapAlternatives": [
-        [
-          "was"
-        ]
+        []
       ],
       "category": "Mixed Conditional"
     },
@@ -1305,9 +1297,7 @@ const EXAM_BANK = {
       "sentence": "I wish I {{gap1}} (be) taller; I can never reach the top shelf.",
       "answer": "were",
       "gapAlternatives": [
-        [
-          "was"
-        ]
+        []
       ],
       "category": "I wish / If only + Past Simple"
     },
@@ -1334,9 +1324,7 @@ const EXAM_BANK = {
       "sentence": "If only there {{gap1}} (be) a quiet study room near my house.",
       "answer": "were",
       "gapAlternatives": [
-        [
-          "was"
-        ]
+        []
       ],
       "category": "I wish / If only + Past Simple"
     },
@@ -3297,7 +3285,6 @@ const EXAM_BANK = {
       "key_word": "IF",
       "transformed": "If that monitor weren't so expensive, I could buy it.",
       "alternatives": [
-        "If that monitor wasn't so expensive, I could buy it.",
         "If that monitor weren't so expensive, I would be able to buy it.",
         "If that monitor weren't so expensive, I would buy it."
       ],
@@ -3351,7 +3338,6 @@ const EXAM_BANK = {
       "key_word": "IF",
       "transformed": "If it weren't raining right now, we could eat lunch in the courtyard.",
       "alternatives": [
-        "If it wasn't raining right now, we could eat lunch in the courtyard.",
         "If it weren't raining right now, we would be able to eat lunch in the courtyard."
       ],
       "category": "Second Conditional"
@@ -3460,7 +3446,6 @@ const EXAM_BANK = {
       "key_word": "IF",
       "transformed": "If I weren't allergic to nuts, I could try that homemade cake.",
       "alternatives": [
-        "If I wasn't allergic to nuts, I could try that homemade cake.",
         "If I weren't allergic to nuts, I would be able to try that homemade cake."
       ],
       "category": "Second Conditional"
@@ -4949,9 +4934,6 @@ const EXAM_BANK = {
         {
           "index": 2,
           "answer": "were",
-          "alternatives": [
-            "was"
-          ],
           "hint": "BE"
         },
         {
@@ -5114,9 +5096,6 @@ const EXAM_BANK = {
         {
           "index": 4,
           "answer": "were",
-          "alternatives": [
-            "was"
-          ],
           "hint": "BE"
         },
         {
@@ -5251,9 +5230,6 @@ const EXAM_BANK = {
         {
           "index": 5,
           "answer": "were",
-          "alternatives": [
-            "was"
-          ],
           "hint": "BE"
         },
         {

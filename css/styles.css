@@ -263,6 +263,11 @@ button,
   background-color: #f0fdf4;
   color: #15803d;
 }
+.gap-input.partial {
+  border-color: #f59e0b !important;
+  background-color: #fffbeb !important;
+  color: #b45309 !important;
+}
 .gap-input.incorrect {
   border-color: #ef4444;
   background-color: #fef2f2;
@@ -399,6 +404,12 @@ button,
   color: #15803d !important;
 }
 
+#rephrasing-input.partial {
+  border-color: #f59e0b !important;
+  background-color: #fffbeb !important;
+  color: #b45309 !important;
+}
+
 #rephrasing-input.incorrect {
   border-color: #ef4444 !important;
   background-color: #fef2f2 !important;
@@ -406,7 +417,9 @@ button,
 }
 
 .gap-input.correct,
+.gap-input.partial,
 #rephrasing-input.correct,
+#rephrasing-input.partial,
 #options-group .option-card.correct,
 .option-card.correct,
 #writing-upgrading-input.correct,
@@ -573,16 +586,29 @@ body.dark-mode .bg-indigo-50 {
 
 /* Píldoras del header en Modo Oscuro */
 body.dark-mode header .bg-amber-50 {
-  background-color: rgba(120, 53, 15, 0.35) !important;
-  border-color: #b45309 !important;
+  background-color: rgba(120, 53, 15, 0.45) !important;
+  border-color: #d97706 !important;
 }
 body.dark-mode header .bg-blue-50 {
-  background-color: rgba(30, 58, 138, 0.35) !important;
-  border-color: #1d4ed8 !important;
+  background-color: rgba(30, 58, 138, 0.55) !important;
+  border-color: #3b82f6 !important;
 }
 body.dark-mode header .bg-rose-50 {
-  background-color: rgba(136, 19, 55, 0.35) !important;
-  border-color: #be123c !important;
+  background-color: rgba(136, 19, 55, 0.45) !important;
+  border-color: #e11d48 !important;
+}
+body.dark-mode .text-blue-600 {
+  color: #60a5fa !important;
+}
+body.dark-mode header #stat-streak {
+  color: #fcd34d !important;
+}
+body.dark-mode header #stat-xp {
+  color: #bfdbfe !important;
+  text-shadow: 0 1px 2px rgba(15, 23, 42, 0.45);
+}
+body.dark-mode header #stat-errors-count {
+  color: #fecdd3 !important;
 }
 
 /* Banco de Errores, Modal de Ajustes, píldoras y badges (.bg-*-100) en Modo Oscuro */
@@ -709,11 +735,18 @@ body.dark-mode #rephrasing-input:focus {
   box-shadow: 0 0 0 3px rgba(28, 176, 246, 0.28) !important;
 }
 
-/* Aciertos (#22c55e) y errores (#ef4444) en inputs de Modo Oscuro */
+/* Aciertos (#22c55e), medio válidos (#f59e0b) y errores (#ef4444) en inputs de Modo Oscuro */
 body.dark-mode .gap-input.correct {
   background-color: rgba(20, 83, 45, 0.45) !important;
   border-color: #22c55e !important;
   color: #4ade80 !important;
+}
+
+body.dark-mode .gap-input.partial,
+body.dark-mode #rephrasing-input.partial {
+  background-color: rgba(120, 53, 15, 0.45) !important;
+  border-color: #f59e0b !important;
+  color: #fcd34d !important;
 }
 
 body.dark-mode .gap-input.incorrect {

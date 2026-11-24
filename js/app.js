@@ -514,6 +514,7 @@ const App = {
         savedInputs[inp.id] = {
           value: inp.value,
           isCorrect: inp.classList.contains('correct'),
+          isPartial: inp.classList.contains('partial'),
           isIncorrect: inp.classList.contains('incorrect')
         };
       }
@@ -538,6 +539,7 @@ const App = {
       if (restored) {
         restored.value = data.value;
         if (data.isCorrect) restored.classList.add('correct');
+        if (data.isPartial) restored.classList.add('partial');
         if (data.isIncorrect) restored.classList.add('incorrect');
       }
     });
@@ -1124,6 +1126,7 @@ const App = {
     const useRelaxed = Boolean(this.state.noHintMode);
     let allCorrect = true;
     let hasFlexibleMatch = false;
+    let hasWasWerePartial = false;
     const userAnswers = [];
 
     ex.gaps.forEach(gap => {
@@ -1132,19 +1135,29 @@ const App = {
       userAnswers.push(val);
 
       let isGapCorrect = false;
-      if (useRelaxed) {
+      let isGapPartial = false;
+      const statusRes = GeminiClient.validateGapWithStatus(val, gap, ex.sentence || '', ex.category || '');
+      if (statusRes.isValid) {
+        isGapCorrect = true;
+        if (statusRes.isWasWerePartial) {
+          isGapPartial = true;
+          hasWasWerePartial = true;
+        }
+      } else if (useRelaxed) {
         const relaxedRes = GeminiClient.validateGapRelaxed(val, gap, ex.sentence || '', ex.category || '');
         isGapCorrect = relaxedRes.isValid;
         if (relaxedRes.isValid && relaxedRes.isFlexibleMatch) {
           hasFlexibleMatch = true;
         }
-      } else {
-        isGapCorrect = GeminiClient.validateGap(val, gap.answer, gap.alternatives);
       }
 
       if (input) {
-        input.classList.remove('correct', 'incorrect');
-        input.classList.add(isGapCorrect ? 'correct' : 'incorrect');
+        input.classList.remove('correct', 'partial', 'incorrect');
+        if (isGapCorrect) {
+          input.classList.add(isGapPartial ? 'partial' : 'correct');
+        } else {
+          input.classList.add('incorrect');
+        }
       }
       if (!isGapCorrect) allCorrect = false;
     });
@@ -1164,7 +1177,16 @@ const App = {
 
     if (allCorrect) {
       SoundEffects.playCorrect();
-      if (useRelaxed && hasFlexibleMatch) {
+      if (hasWasWerePartial) {
+        this.showFeedback({
+          type: 'partial',
+          title: '¡Medio válido! En examen prioriza "were / weren\'t"',
+          message: 'Has escrito "was / wasn\'t", aceptable en inglés informal en 1ª y 3ª persona del singular, pero en examen se recomienda "were / weren\'t".',
+          rule: `${ex.rule}\n\n${GeminiClient.WERE_VS_WAS_NOTE}`,
+          expectedText: `Forma estándar de examen: ${expectedAnswers}`,
+          category: mode1Category
+        });
+      } else if (useRelaxed && hasFlexibleMatch) {
         this.showFeedback({
           type: 'correct',
           title: '¡Válido! Aceptado en modo Sin pista',
@@ -1223,11 +1245,15 @@ const App = {
     const textarea = document.getElementById('rephrasing-input');
     const val = (textarea?.value || '').trim();
 
-    const result = GeminiClient.validateRephrasing(val, ex.target, ex.alternatives, ex.keyword);
+    const result = GeminiClient.validateRephrasing(val, ex.target, ex.alternatives, ex.keyword, ex.category || '');
 
     if (textarea) {
-      textarea.classList.remove('correct', 'incorrect');
-      textarea.classList.add(result.isValid ? 'correct' : 'incorrect');
+      textarea.classList.remove('correct', 'partial', 'incorrect');
+      if (result.isValid) {
+        textarea.classList.add(result.isPartial ? 'partial' : 'correct');
+      } else {
+        textarea.classList.add('incorrect');
+      }
     }
 
     const mode2Category = ex.category || 'Rephrasing';
@@ -1236,10 +1262,14 @@ const App = {
       SoundEffects.playCorrect();
       this.showFeedback({
         type: result.isPartial ? 'partial' : 'correct',
-        title: result.isPartial ? '¡Casi perfecta! Válida' : '¡Correcto! Transformación impecable',
+        title: result.isWasWerePartial
+          ? '¡Medio válido! En examen prioriza "were / weren\'t"'
+          : result.isPartial
+            ? '¡Casi perfecta! Válida'
+            : '¡Correcto! Transformación impecable',
         message: result.feedback,
-        rule: ex.rule,
-        expectedText: `Solución oficial: "${ex.target}"`,
+        rule: result.isWasWerePartial ? `${ex.rule}\n\n${GeminiClient.WERE_VS_WAS_NOTE}` : ex.rule,
+        expectedText: result.isWasWerePartial ? `Solución estándar de examen: "${ex.target}"` : `Solución oficial: "${ex.target}"`,
         category: mode2Category
       });
       StorageManager.recordResult('mode2', true);
@@ -1284,6 +1314,7 @@ const App = {
     const useRelaxed = Boolean(this.state.noHintMode);
     let correctCount = 0;
     let hasFlexibleMatch = false;
+    let hasWasWerePartial = false;
     const totalGaps = ex.gaps.length;
     const breakdown = [];
 
@@ -1292,19 +1323,29 @@ const App = {
       const val = (input?.value || '').trim();
 
       let isGapCorrect = false;
-      if (useRelaxed) {
+      let isGapPartial = false;
+      const statusRes = GeminiClient.validateGapWithStatus(val, gap, ex.textTemplate || '', 'Cloze Test');
+      if (statusRes.isValid) {
+        isGapCorrect = true;
+        if (statusRes.isWasWerePartial) {
+          isGapPartial = true;
+          hasWasWerePartial = true;
+        }
+      } else if (useRelaxed) {
         const relaxedRes = GeminiClient.validateGapRelaxed(val, gap, ex.textTemplate || '', 'Cloze Test');
         isGapCorrect = relaxedRes.isValid;
         if (relaxedRes.isValid && relaxedRes.isFlexibleMatch) {
           hasFlexibleMatch = true;
         }
-      } else {
-        isGapCorrect = GeminiClient.validateGap(val, gap.answer, gap.alternatives);
       }
 
       if (input) {
-        input.classList.remove('correct', 'incorrect');
-        input.classList.add(isGapCorrect ? 'correct' : 'incorrect');
+        input.classList.remove('correct', 'partial', 'incorrect');
+        if (isGapCorrect) {
+          input.classList.add(isGapPartial ? 'partial' : 'correct');
+        } else {
+          input.classList.add('incorrect');
+        }
       }
 
       if (isGapCorrect) {
@@ -1329,14 +1370,27 @@ const App = {
           : 'Narrative Past Tenses & Phrasal Verbs (Cloze Test)'
     );
 
+    const effectiveRule = hasWasWerePartial
+      ? `${ex.generalRule}\n\n${GeminiClient.WERE_VS_WAS_NOTE}`
+      : ex.generalRule;
+
     if (isAllOrMostCorrect) {
       SoundEffects.playCorrect();
-      if (useRelaxed && hasFlexibleMatch) {
+      if (hasWasWerePartial) {
+        this.showFeedback({
+          type: 'partial',
+          title: `¡Medio válido! ${correctCount}/${totalGaps} aciertos (revisa "were / weren't")`,
+          message: 'Has usado "was / wasn\'t" en 1ª o 3ª persona del singular; en examen formal prioriza "were / weren\'t".',
+          rule: effectiveRule,
+          expectedText: `Respuestas estándar: ${fullSolutions}`,
+          category: mode3Category
+        });
+      } else if (useRelaxed && hasFlexibleMatch) {
         this.showFeedback({
           type: 'correct',
           title: `¡Puntuación perfecta! ${correctCount}/${totalGaps} válidos (Sin pista)`,
           message: 'Tus respuestas mantienen coherencia con el contexto (corrección flexible activa).',
-          rule: ex.generalRule,
+          rule: effectiveRule,
           expectedText: `Ejemplos de respuestas habituales: ${fullExamples}`,
           category: mode3Category
         });
@@ -1345,7 +1399,7 @@ const App = {
           type: 'correct',
           title: `¡Puntuación perfecta! ${correctCount}/${totalGaps} aciertos`,
           message: 'Has clavado todas las palabras del texto.',
-          rule: ex.generalRule,
+          rule: effectiveRule,
           expectedText: `Respuestas: ${fullSolutions}`,
           category: mode3Category
         });
@@ -1358,13 +1412,17 @@ const App = {
       SoundEffects.playCorrect();
       this.showFeedback({
         type: 'partial',
-        title: useRelaxed && hasFlexibleMatch
-          ? `¡Buen trabajo! ${correctCount}/${totalGaps} válidos (Sin pista)`
-          : `¡Buen trabajo! ${correctCount}/${totalGaps} aciertos`,
-        message: useRelaxed && hasFlexibleMatch
-          ? 'Has acertado la gran mayoría del relato con corrección flexible activa.'
-          : 'Has acertado la gran mayoría del relato.',
-        rule: ex.generalRule,
+        title: hasWasWerePartial
+          ? `¡Buen trabajo! ${correctCount}/${totalGaps} aciertos (revisa "were / weren't")`
+          : useRelaxed && hasFlexibleMatch
+            ? `¡Buen trabajo! ${correctCount}/${totalGaps} válidos (Sin pista)`
+            : `¡Buen trabajo! ${correctCount}/${totalGaps} aciertos`,
+        message: hasWasWerePartial
+          ? 'Has acertado la mayoría del relato; recuerda priorizar "were / weren\'t" en examen formal.'
+          : useRelaxed && hasFlexibleMatch
+            ? 'Has acertado la gran mayoría del relato con corrección flexible activa.'
+            : 'Has acertado la gran mayoría del relato.',
+        rule: effectiveRule,
         expectedText: useRelaxed && hasFlexibleMatch
           ? `Correcciones pendientes: ${breakdown.join(' · ')}\nEjemplos habituales: ${fullExamples}`
           : `Correcciones pendientes: ${breakdown.join(' · ')}`,

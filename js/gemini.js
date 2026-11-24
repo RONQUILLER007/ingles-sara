@@ -159,6 +159,9 @@ const GeminiClient = {
     return Array.from(variants).filter(Boolean);
   },
 
+  // Recordatorio explicativo sobre were vs was en subjuntivo / condicionales
+  WERE_VS_WAS_NOTE: '💡 Diferencia entre "were" y "was" (Subjuntivo / Pasado Irreal):\n• "were / weren\'t": es la forma estándar del subjuntivo en inglés formal y la que se exige o prioriza en exámenes de Bachillerato (PAU/EBAU) y oficiales (B2/C1) para todas las personas ("If I were you...", "I wish I were / she were...").\n• "was / wasn\'t": se acepta gramaticalmente en inglés informal o hablado para la 1ª y 3ª persona del singular (I / he / she / it), pero conviene evitarla en exámenes escritos formales.',
+
   // Diccionario de significados y explicaciones detalladas en español para expresiones, preposiciones y vocabulario
   MEANINGS_DICT: {
     // Expressions with matter
@@ -641,10 +644,13 @@ const GeminiClient = {
       for (const normV of this.getNormalizedVariants(f)) {
         canonicalSet.add(normV);
         if (allowWasWereSwap) {
-          canonicalSet.add(normV.replace(/\b(i|he|she|it|there)\s+were\b/g, '$1 was'));
-          canonicalSet.add(normV.replace(/\b(i|he|she|it|there)\s+was\b/g, '$1 were'));
-          canonicalSet.add(normV.replace(/\b(i|he|she|it|there)\s+were\s+not\b/g, '$1 was not'));
-          canonicalSet.add(normV.replace(/\b(i|he|she|it|there)\s+was\s+not\b/g, '$1 were not'));
+          const sgSubj = '(?:i|he|she|it|(?:the|my|your|his|her|its|our|that|this|one)\\s+(?!days|trains|walls|students|people|children|friends|parents|cars|books|things)[a-z]{2,}(?<!s))';
+          const thereGuard = 'there(?=\\s+(?:were|was)(?:\\s+not)?\\s+(?!many\\b|several\\b|few\\b|lots\\s+of\\b|more\\s+(?:[a-z]+\\s+)*[a-z]+s\\b|\\d+\\b))';
+          const subjPat = `(?:${sgSubj}|${thereGuard})`;
+          canonicalSet.add(normV.replace(new RegExp(`\\b(${subjPat})\\s+were\\b`, 'g'), '$1 was'));
+          canonicalSet.add(normV.replace(new RegExp(`\\b(${subjPat})\\s+was\\b`, 'g'), '$1 were'));
+          canonicalSet.add(normV.replace(new RegExp(`\\b(${subjPat})\\s+were\\s+not\\b`, 'g'), '$1 was not'));
+          canonicalSet.add(normV.replace(new RegExp(`\\b(${subjPat})\\s+was\\s+not\\b`, 'g'), '$1 were not'));
         }
       }
     }
@@ -661,14 +667,13 @@ const GeminiClient = {
   },
 
   // Validación flexible para ejercicios de Rephrasing (Modo 2)
-  validateRephrasing(userAnswer, targetAnswer, alternatives = [], keyword = '') {
+  validateRephrasing(userAnswer, targetAnswer, alternatives = [], keyword = '', category = '') {
     const rawUser = (userAnswer || '').trim();
     if (!rawUser) {
-      return { isValid: false, isPartial: false, feedback: 'Por favor, escribe una respuesta.' };
+      return { isValid: false, isPartial: false, isWasWerePartial: false, feedback: 'Por favor, escribe una respuesta.' };
     }
 
-    const allowWasWereSwap = !keyword || this.normalizeText(keyword) !== 'were';
-    const userCanonicalVariants = this.buildRephrasingVariants(rawUser, allowWasWereSwap);
+    const userCanonicalVariants = this.buildRephrasingVariants(rawUser, false);
     const userPadded = userCanonicalVariants.map(v => ` ${v} `);
 
     // Verificar inclusión obligatoria de la palabra clave (incluyendo contracciones / variantes ortográficas)
@@ -686,21 +691,47 @@ const GeminiClient = {
         return {
           isValid: true,
           isPartial: false,
+          isWasWerePartial: false,
           feedback: '¡Excelente! Respuesta perfectamente formulada.'
         };
       }
     }
 
-    // 2. Coincidencia con cláusulas invertidas, 'that' opcional o was/were singular equivalente
+    // 2. Coincidencia con cláusulas invertidas o 'that' opcional (sin intercambio was/were para reservar el verde a were)
     const userSetAll = new Set(userCanonicalVariants);
     for (const cand of candidates) {
-      const candVariants = this.buildRephrasingVariants(cand, allowWasWereSwap);
+      const candVariants = this.buildRephrasingVariants(cand, false);
       if (containsKeyword && candVariants.some(cv => userSetAll.has(cv))) {
         return {
           isValid: true,
           isPartial: false,
+          isWasWerePartial: false,
           feedback: '¡Correcto! Formulación gramaticalmente equivalente y 100% válida.'
         };
+      }
+    }
+
+    // 2b. Coincidencia en ÁMBAR ("medio válido"): was / wasn't en lugar de were / weren't en 1ª o 3ª pers. singular
+    const isSubjunctiveCategory = !category || /second\s+conditional|mixed\s+conditional|wish|conditionals/i.test(category);
+    const userExpanded = this.expandContractions(rawUser);
+    const userHasWas = /\bwas(\s+not)?\b/.test(userExpanded);
+    const kwIsWere = this.normalizeText(keyword) === 'were';
+    const containsKwOrWasSwap = containsKeyword || (kwIsWere && userHasWas);
+
+    if (isSubjunctiveCategory && userHasWas && containsKwOrWasSwap) {
+      const userWasSet = new Set(this.buildRephrasingVariants(rawUser, true));
+      for (const cand of candidates) {
+        const candExpanded = this.expandContractions(cand);
+        if (!/\bwere(\s+not)?\b/.test(candExpanded)) continue;
+        const candWasVariants = this.buildRephrasingVariants(cand, true);
+        if (candWasVariants.some(cv => userWasSet.has(cv))) {
+          return {
+            isValid: true,
+            isPartial: true,
+            isWasWerePartial: true,
+            feedback: '¡Medio válido (ámbar)! Tu frase usa "was / wasn\'t", aceptable en inglés informal para 1ª y 3ª persona del singular, aunque en examen formal se prioriza "were / weren\'t".'
+          };
+        }
       }
     }
 
@@ -709,13 +740,14 @@ const GeminiClient = {
       return {
         isValid: false,
         isPartial: false,
+        isWasWerePartial: false,
         feedback: `Recuerda que debes incluir obligatoriamente la palabra clave: "(${keyword})".`
       };
     }
 
-    // 3. Similitud léxica alta (>=88%) sobre cualquiera de las candidatas CON guardia de polaridad negativa
+    // 3. Similitud léxica alta (>=88%) sobre cualquiera de las candidatas CON guardia de polaridad negativa y was/were
     const stopWords = new Set(['a', 'an', 'the', 'to', 'of', 'in', 'on', 'at']);
-    const primaryUserNorm = userCanonicalVariants[0] || this.expandContractions(rawUser);
+    const primaryUserNorm = userCanonicalVariants[0] || userExpanded;
     const userNegCount = this.countNegations(primaryUserNorm);
     const userContentWords = primaryUserNorm.split(' ').filter(w => w.length > 2 && !stopWords.has(w));
     const userTotalLen = primaryUserNorm.split(' ').filter(Boolean).length;
@@ -723,6 +755,7 @@ const GeminiClient = {
     for (const cand of candidates) {
       const candNorm = this.expandContractions(cand);
       if (userNegCount !== this.countNegations(candNorm)) continue;
+      if (/\bwere(\s+not)?\b/.test(candNorm) && /\bwas(\s+not)?\b/.test(primaryUserNorm)) continue;
 
       const candContentWords = candNorm.split(' ').filter(w => w.length > 2 && !stopWords.has(w));
       const candTotalLen = candNorm.split(' ').filter(Boolean).length;
@@ -733,6 +766,7 @@ const GeminiClient = {
         return {
           isValid: true,
           isPartial: true,
+          isWasWerePartial: false,
           feedback: '¡Casi perfecta! Tu respuesta es válida, aunque la formulación estándar del examen es la mostrada.'
         };
       }
@@ -741,6 +775,7 @@ const GeminiClient = {
     return {
       isValid: false,
       isPartial: false,
+      isWasWerePartial: false,
       feedback: 'Respuesta no coincidente con la transformación requerida en el examen.'
     };
   },
@@ -795,6 +830,68 @@ const GeminiClient = {
       }
     }
     return false;
+  },
+
+  // Comprueba si un hueco con respuesta esperada were / weren't admite was / wasn't en 1ª o 3ª pers. singular
+  isSingularWereToWasContext(contextText = '', gapId = '') {
+    const text = String(contextText || '');
+    const idToken = String(gapId || 'gap1').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const gapRegex = new RegExp(`\\{\\{${idToken}\\}\\}(?:\\s*\\([^)]+\\))?`, 'i');
+    const match = gapRegex.exec(text);
+    if (!match) return false;
+
+    const beforeRaw = text.slice(0, match.index);
+    const afterRaw = text.slice(match.index + match[0].length);
+    const beforeClause = (beforeRaw.split(/[.!?;]/).pop() || '').toLowerCase().trim();
+    const afterClause = (afterRaw.split(/[.!?;]/)[0] || '').toLowerCase().trim();
+
+    if (/\b(they|we|you|these|those|both|many|few|several|all|most|some|people|children|students|friends|parents|trains|days|walls|cars|houses|things|problems)\s*$/i.test(beforeClause)) {
+      return false;
+    }
+
+    if (/\bthere\s*$/i.test(beforeClause)) {
+      if (/^(?:so\s+)?(?:many|several|few|lots\s+of|a\s+lot\s+of|\d+|more\s+(?:[a-z]+\s+)*[a-z]+s\b)/i.test(afterClause)) {
+        return false;
+      }
+      return true;
+    }
+
+    if (/\b(i|he|she|it|everyone|everybody|someone|somebody|anyone|anybody|no\s+one|nobody|who|that|this)\s*$/i.test(beforeClause)) {
+      return true;
+    }
+
+    if (/\b(?:the|my|your|his|her|its|our|that|this|one|a|an)\s+(?!trains|days|walls|students|people|children|friends|parents|cars|books|things)[a-z]{2,}(?<!s)\s*$/i.test(beforeClause)) {
+      return true;
+    }
+
+    return false;
+  },
+
+  // Validación para huecos con estado verde / ámbar (was/wasn't vs were/weren't en 2ª Condicional / I wish)
+  validateGapWithStatus(userAnswer, gap, contextText = '', category = '') {
+    const trimmedUser = String(userAnswer || '').trim();
+    if (!trimmedUser) {
+      return { isValid: false, isPartial: false, isWasWerePartial: false };
+    }
+
+    if (this.validateGap(trimmedUser, gap?.answer, gap?.alternatives)) {
+      return { isValid: true, isPartial: false, isWasWerePartial: false };
+    }
+
+    const normExpected = this.expandContractions(gap?.answer || '');
+    const normUser = this.expandContractions(trimmedUser);
+    const isSingularWasPair =
+      (normExpected === 'were' && normUser === 'was') ||
+      (normExpected === 'were not' && normUser === 'was not');
+
+    if (isSingularWasPair) {
+      const isSubjunctiveCategory = !category || /second\s+conditional|mixed\s+conditional|wish|conditionals|cloze/i.test(category);
+      if (isSubjunctiveCategory && this.isSingularWereToWasContext(contextText, gap?.id)) {
+        return { isValid: true, isPartial: true, isWasWerePartial: true };
+      }
+    }
+
+    return { isValid: false, isPartial: false, isWasWerePartial: false };
   },
 
   // Validación laxa y flexible para modo "Sin pista" (acepta alternativas válidas o respuestas coherentes en contexto)
